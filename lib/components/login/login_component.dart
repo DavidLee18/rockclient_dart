@@ -39,6 +39,7 @@ class LoginComponent implements OnActivate {
 
   @override
   void onActivate(RouterState previous, RouterState current) {
+    if(firebase.apps.length == 0)
     firebase.initializeApp(
       apiKey: "AIzaSyBkhrchnoMwgz67nJGi3qETa6EgG1xXjM0",
       authDomain: "cba-retreat.firebaseapp.com",

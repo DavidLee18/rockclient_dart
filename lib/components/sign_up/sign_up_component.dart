@@ -52,22 +52,6 @@ class SignUpComponent implements OnActivate {
     "1학년", "2학년", "3학년",
     "4학년", "대학원", "졸업생",
   ];
-  var lecture = "단계별 강의";
-  final lectures = [
-    "성락교회 캠퍼스 베뢰아의 사명",
-    "성장 그리고 사명",
-    "베뢰아 운동의 동역자",
-    "베뢰아인의 삶과 세상에서의 우리",
-  ];
-  var retreat_gbs = "수련회 단계";
-  final retreat_gbses = [
-    "A", "새내기", "C",
-    "E", "F", "J",
-    "OJ", "EN", "자모GBS",
-    "STAFF",
-  ];
-  var retreat_gbs_type = "조원구분";
-  final retreat_gbs_types = ["조원", "부조장", "조장", "봉사자"];
   var isbaptized = false;
   var email = '';
   var password = '';
@@ -75,6 +59,9 @@ class SignUpComponent implements OnActivate {
   var major = '';
   var address = '';
   var guide = '';
+
+  var errorMobile = '';
+  var errorPass = '';
 
   SignUpComponent(this._rockService, this._router, this._snackbarService);
 
@@ -88,10 +75,32 @@ class SignUpComponent implements OnActivate {
     String date,
     String sex,
     String campus) async {
-    final res = await _rockService.signUp(email, password, name, mobile, date, sex, campus, address, school, major, grade, guide);
-
-    //_snackbarService.showMessage(res);
+      try {
+        final res = await _rockService.signUp(email, password, name, mobile, date, sex, campus, address, school, major, grade, guide);
+        //_snackbarService.showMessage(res);
+        signUpSuccess = true;
+      } catch (e) {
+      }
   }
+
+  onMobile(String val) {
+    errorMobile = !val.contains(RegExp(r"^\d{9,11}$")) ? "전화번호를 입력하세요" : null;
+  }
+
+  onPass(String val) {
+    errorPass = val.length < 56 ? "비밀번호는 6자 이상이어야 합니다" : null;
+  }
+
+  bool get isValid => name.length > 0
+  && mobile.length > 0
+  && school.length > 0
+  && major.length > 0
+  && email.length > 0
+  && password.length > 5
+  && address.length > 0
+  && born != Date.today()
+  && campus != "캠퍼스"
+  && grade != "학년";
 
   @override
   void onActivate(RouterState previous, RouterState current) {

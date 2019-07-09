@@ -4,7 +4,8 @@
     <material-input label="이름" [(ngModel)]="name" floatingLabel required requiredErrorMsg="값을 입력하세요"></material-input>
     <material-input label="연락처" type="tel"
         floatingLabel [(ngModel)]="mobile"
-        error="전화번호가 아닙니다" required
+        [error]="errorMobile" required
+        (inputKeyPress)="onMobile(mobile)"
         requiredErrorMsg="값을 입력하세요"></material-input>
 </section>
 <section>
@@ -39,6 +40,8 @@
     <material-input label="비밀번호" floatingLabel 
         type="password" required
         requiredErrorMsg="값을 입력하세요"
+        [error]="errorPass"
+        (inputKeyPress)="onPass(password)"
         [(ngModel)]="password"></material-input>
 </section>
 <section>
@@ -48,9 +51,10 @@
 <section>
     <material-button (trigger)="goback()" raised>이전으로</material-button>
     <material-button raised
+        [disabled]="!isValid"
         (trigger)="signUp(email, password, name, mobile, born.format(dateform), ismale ? '남' : '여', campus)"
         class="blue">등록하기</material-button>
-    <material-button raised
+    <material-button raised disabled
         class="blue">수정하기</material-button>
 </section>
 </div>
