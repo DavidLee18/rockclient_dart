@@ -1,0 +1,34 @@
+@import 'package:angular_components/css/material/material';
+
+// Provide a size for the card. Cards normally take up the complete space of
+// their parent.
+.card-size {
+    width: $mat-grid * 44;
+  }
+  
+  // Provide material styling for the title.
+  .card-title {
+    @include mat-font-title;
+    line-height: 1em; // legacy setting
+    margin: 0;
+  }
+  
+  // Provider material styling for the subtitle.
+  .card-subtitle {
+    @include mat-font-subhead;
+    margin: 0;
+  }
+    
+  .card-primary {
+    padding: $mat-grid * 2;
+  }
+  
+  .card-secondary {
+    @include mat-font-body;
+    padding: 0 $mat-grid * 2 $mat-grid;
+  }
+
+  material-fab {
+    float: right;
+    overflow: auto;
+  }

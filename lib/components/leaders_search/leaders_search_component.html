@@ -1,0 +1,51 @@
+<div *ngIf="leaders != null">
+<div class="mdc-card card-size mdc-card--outlined" *ngFor="let leader of leaders['data']">
+    <div class="card-primary">
+        <h2 class="card-title">{{leader['name']}}</h2>
+        <h3 class="card-subtitle">{{leader['mobile']}}</h3>
+    </div>
+    <div class="card-secondary">
+        ID: {{leader['memberId']}}
+        <material-chips removable>
+            <material-chip *ngFor="let campus of leader['campuses']"
+                (remove)="delCampus(leader['memberId'], leader['campuses'], campus)">
+                {{campus}}
+            </material-chip>
+            
+            <material-button icon (trigger)="startToAdd(leader)">
+                <material-icon icon="add"></material-icon>
+            </material-button>
+        </material-chips>
+    </div>
+    <div class="mdc-card__actions">
+        <!--<div class="mdc-card__action-buttons">
+            <material-button>캠퍼스 수정</material-button>
+        </div>-->
+        <div class="mdc-card__action-icons">
+            <material-button icon (trigger)="delete(leader['memberId'])">
+                <material-icon icon="delete"></material-icon>
+            </material-button>
+        </div>
+    </div>
+</div>
+</div>
+<modal [(visible)]="isAdding">
+    <material-dialog>
+        <div header>
+            <h1>담당 캠퍼스 추가</h1>
+        </div>
+        <material-dropdown-select
+                [buttonText]="campusToAdd"
+                [options]="campuses"
+                [(selection)]="campusToAdd"></material-dropdown-select>
+        <div footer>
+            <material-button (trigger)="add(currentLeader['memberId'], currentLeader['campuses'], campusToAdd)">추가</material-button>
+            <material-button autofocus (trigger)="isAdding = false">취소</material-button>
+        </div>
+    </material-dialog>
+</modal>
+<skawa-snackbar></skawa-snackbar>
+<div *ngIf="leaders == null">Loading...</div>
+<material-fab raised (trigger)="goMembers()">
+    <material-icon icon="add"></material-icon>
+</material-fab>

@@ -1,0 +1,19 @@
+<div *ngIf="!registered">
+    <h1>수련회 등록</h1>
+    <p>
+        <material-dropdown-select [buttonText]="position" [options]="positions" [(selection)]="position"></material-dropdown-select>
+    </p>
+    <p>
+        <material-dropdown-select [buttonText]="retreat_gbs" [options]="retreat_gbses" [(selection)]="retreat_gbs"></material-dropdown-select>
+    </p>
+    <p>
+        <material-dropdown-select [buttonText]="gbs" [options]="gbses" [(selection)]="gbs"></material-dropdown-select>
+    </p>
+    <p>
+        <material-dropdown-select [buttonText]="lecture" [options]="lectures" [(selection)]="lecture"></material-dropdown-select>
+    </p>
+    <material-button (trigger)="register(lecture, gbs, retreat_gbs, position)" raised>등록</material-button>
+</div>
+<div *ngIf="registered">
+    <h2>축하합니다! 수련회 등록을 마쳤습니다. 수련회 성공하세요!</h2>
+</div>

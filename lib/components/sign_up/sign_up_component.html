@@ -1,0 +1,59 @@
+<div *ngIf="signUpSuccess == false">
+<h1>회원가입</h1>
+<section>
+    <material-input label="이름" [(ngModel)]="name" floatingLabel required requiredErrorMsg="값을 입력하세요"></material-input>
+    <material-input label="연락처" type="tel"
+        floatingLabel [(ngModel)]="mobile"
+        error="전화번호가 아닙니다" required
+        requiredErrorMsg="값을 입력하세요"></material-input>
+</section>
+<section>
+    <h4>생년월일</h4>
+    <material-datepicker placeholderMsg="생년월일" [(date)]="born"
+        [outputFormat]="dateform"
+        [minDate]="min"></material-datepicker>
+    <material-dropdown-select [buttonText]="campus" 
+        [options]="campuses"
+        [(selection)]="campus"></material-dropdown-select>
+</section>
+<section>
+    <material-radio-group [(ngModel)]="ismale">
+        <material-radio [value]="true">남자</material-radio>
+        <material-radio [value]="false">여자</material-radio>
+    </material-radio-group>
+</section>
+<section>
+    <material-input label="학교" [(ngModel)]="school" floatingLabel required requiredErrorMsg="값을 입력하세요"></material-input>
+    <material-input label="전공" [(ngModel)]="major" floatingLabel required requiredErrorMsg="값을 입력하세요"></material-input>
+</section>
+<section>
+    <material-dropdown-select [buttonText]="grade"
+        [options]="grades"
+        [(selection)]="grade"></material-dropdown-select>
+</section>
+<section>
+    <material-input label="e-mail 주소" floatingLabel
+        type="email" required
+        requiredErrorMsg="값을 입력하세요"
+        [(ngModel)]="email"></material-input>
+    <material-input label="비밀번호" floatingLabel 
+        type="password" required
+        requiredErrorMsg="값을 입력하세요"
+        [(ngModel)]="password"></material-input>
+</section>
+<section>
+    <material-input multiline label="주소" [(ngModel)]="address" floatingLabel required requiredErrorMsg="값을 입력하세요"></material-input>
+    <material-input label="인도자(새신자 전용)" [(ngModel)]="guide" floatingLabel></material-input>
+</section>
+<section>
+    <material-button (trigger)="goback()" raised>이전으로</material-button>
+    <material-button raised
+        (trigger)="signUp(email, password, name, mobile, born.format(dateform), ismale ? '남' : '여', campus)"
+        class="blue">등록하기</material-button>
+    <material-button raised
+        class="blue">수정하기</material-button>
+</section>
+</div>
+<div *ngIf="signUpSuccess">
+    <h2>축하합니다! 회원가입을 마쳤습니다.</h2>
+</div>
