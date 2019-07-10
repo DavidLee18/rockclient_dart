@@ -1,18 +1,38 @@
 <div *ngIf="signUpSuccess == false">
 <h1>회원가입</h1>
 <section>
+    <material-input label="e-mail 주소" floatingLabel
+        type="email" required
+        requiredErrorMsg="값을 입력하세요"
+        [(ngModel)]="email"></material-input>
+    <material-input label="비밀번호" floatingLabel 
+        type="password" required
+        requiredErrorMsg="값을 입력하세요"
+        [error]="errorPass"
+        (inputKeyPress)="onPass($event)"
+        [(ngModel)]="password"></material-input>
+    <material-input label="비밀번호 확인" floatingLabel
+        type="password" required
+        requiredErrorMsg="값을 입력하세요"
+        [error]="errorValid"
+        (inputKeyPress)="onValidate($event)"
+        [(ngModel)]="passAgain"></material-input>
+</section>
+<section>
     <material-input label="이름" [(ngModel)]="name" floatingLabel required requiredErrorMsg="값을 입력하세요"></material-input>
     <material-input label="연락처" type="tel"
         floatingLabel [(ngModel)]="mobile"
         [error]="errorMobile" required
-        (inputKeyPress)="onMobile(mobile)"
+        (inputKeyPress)="onMobile($event)"
         requiredErrorMsg="값을 입력하세요"></material-input>
 </section>
 <section>
-    <h4>생년월일</h4>
-    <material-datepicker placeholderMsg="생년월일" [(date)]="born"
-        [outputFormat]="dateform"
-        [minDate]="min"></material-datepicker>
+    <material-input label="생년월일" type="number"
+        floatingLabel [(ngModel)]="born"
+        [error]="errorBorn" required
+        (inputKeyPress)="onDate($event)"
+        hintText="cf) 19960101"
+        requiredErrorMsg="값을 입력하새요"></material-input>
     <material-dropdown-select [buttonText]="campus" 
         [options]="campuses"
         [(selection)]="campus"></material-dropdown-select>
@@ -33,18 +53,6 @@
         [(selection)]="grade"></material-dropdown-select>
 </section>
 <section>
-    <material-input label="e-mail 주소" floatingLabel
-        type="email" required
-        requiredErrorMsg="값을 입력하세요"
-        [(ngModel)]="email"></material-input>
-    <material-input label="비밀번호" floatingLabel 
-        type="password" required
-        requiredErrorMsg="값을 입력하세요"
-        [error]="errorPass"
-        (inputKeyPress)="onPass(password)"
-        [(ngModel)]="password"></material-input>
-</section>
-<section>
     <material-input multiline label="주소" [(ngModel)]="address" floatingLabel required requiredErrorMsg="값을 입력하세요"></material-input>
     <material-input label="인도자(새신자 전용)" [(ngModel)]="guide" floatingLabel></material-input>
 </section>
@@ -52,12 +60,13 @@
     <material-button (trigger)="goback()" raised>이전으로</material-button>
     <material-button raised
         [disabled]="!isValid"
-        (trigger)="signUp(email, password, name, mobile, born.format(dateform), ismale ? '남' : '여', campus)"
+        (trigger)="signUp(email, password, name, mobile, born, ismale ? '남' : '여', campus)"
         class="blue">등록하기</material-button>
     <material-button raised disabled
         class="blue">수정하기</material-button>
 </section>
 </div>
 <div *ngIf="signUpSuccess">
-    <h2>축하합니다! 회원가입을 마쳤습니다. 수련회를 등록하세요~</h2>
+    <h2>축하합니다! 회원가입을 마쳤습니다. 수련회를 등록하세요.</h2>
+    <material-button (trigger)="goRegisterRetreat" raised>수련회 등록</material-button>
 </div>

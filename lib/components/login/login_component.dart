@@ -29,7 +29,7 @@ class LoginComponent implements OnActivate {
     try {
       await firebase.auth().signInWithEmailAndPassword(email, password);
       _rockService.uid = firebase.auth().currentUser.uid;
-      await _router.navigate('/retreat_info');
+      await _router.navigate('/register_retreat');
     } catch (e) {
       _snackbarService.showMessage('login failed...');
     }
