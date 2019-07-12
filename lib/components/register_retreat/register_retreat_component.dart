@@ -36,9 +36,11 @@ class RegisterRetreatComponent implements OnActivate {
   final gbses = [
     "칼리지베이직", "마태칼리지", "마가칼리지",
     "누가칼리지", "요한칼리지", "바울칼리지",
-    "칼리지플러스",
+    "칼리지플러스", "없음",
   ];
   var registered = false;
+  var already = false;
+  Map _info;
 
   RegisterRetreatComponent(this._rockService);
 
@@ -48,7 +50,13 @@ class RegisterRetreatComponent implements OnActivate {
   }
 
   @override
-  void onActivate(RouterState previous, RouterState current) {
-    // TODO: implement onActivate
+  void onActivate(RouterState previous, RouterState current) async {
+    _info = await _rockService.MyInfo;
+    this.already = _info['retreat_id'] != null
+    && _info['gbsLevel'] != null
+    && _info['position'] != null;
+    if(already) {
+      position = _info['position'];
+    }
   }
 }

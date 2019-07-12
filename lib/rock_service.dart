@@ -99,6 +99,16 @@ class RockService {
     }
     catch(e) { throw e; }
   }
+  Future<Map> get MyInfo async {
+    try {
+      if(uid == null) throw ArgumentError("uid is not defined");
+      final res = await _http.get('http://cba.sungrak.or.kr:9000/getMyInfo/$uid', headers: _headers);
+      final info = json.decode(res.body) as Map;
+      return info;
+    } catch (e) {
+      throw e;
+    }
+  }
   Future<String> delete(int id) async {
     try {
       final res = await _http.delete(_leaders + "/$id", headers: _headers);

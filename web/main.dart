@@ -9,8 +9,10 @@ import 'main.template.dart' as self;
 
 const useHashLS = false;
 const providers = //routerProvidersHash ++ [ClassProvider(Client, useClass: BrowserClient)];
+/*ClassProvider(LocationStrategy, useClass: PathLocationStrategy),
+  ClassProvider(LocationStrategy, useClass: HashLocationStrategy),*/
 [
-  ClassProvider(LocationStrategy, useClass: PathLocationStrategy),
+  ClassProvider(LocationStrategy, useClass: HashLocationStrategy),
   ClassProvider(PlatformLocation, useClass: BrowserPlatformLocation),
   ClassProvider(Location),
   ClassProvider(Router, useClass: RouterImpl),
