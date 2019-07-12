@@ -92,8 +92,11 @@ class SignUpComponent implements OnActivate {
     String date,
     String sex,
     String campus) async {
+      final year = date.substring(0, 3);
+      final month = date.substring(3, 5);
+      final day = date.substring(5, 7);
       try {
-        final res = await _rockService.signUp(email, password, name, mobile, date, sex, campus, address, school, major, grade, guide);
+        final res = await _rockService.signUp(email, password, name, mobile, '$year-$month-$day', sex, campus, address, school, major, grade, guide);
         _snackbarService.showMessage(res);
         signUpSuccess = true;
       } catch (e) {

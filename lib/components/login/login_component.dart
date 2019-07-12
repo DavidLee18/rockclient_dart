@@ -27,13 +27,15 @@ class LoginComponent implements OnActivate {
 
   logIn() async {
     try {
-      await firebase.auth().signOut();
-      _rockService.uid = null;
+      if(firebase.auth().currentUser != null) {
+        await firebase.auth().signOut();
+        _rockService.uid = null;
+      }
       await firebase.auth().signInWithEmailAndPassword(email, password);
       _rockService.uid = firebase.auth().currentUser.uid;
       await _router.navigate('/register_retreat');
     } catch (e) {
-      _snackbarService.showMessage('login failed...');
+      _snackbarService.showMessage('login failed: ${e.toString()}');
     }
   }
 
