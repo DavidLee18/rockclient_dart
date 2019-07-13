@@ -75,6 +75,7 @@ class SignUpComponent implements OnActivate {
       throw e;
     }
   }
+  goToLogin() async => await _router.navigate('/login');
 
   void signUp(
     String email,
@@ -84,9 +85,9 @@ class SignUpComponent implements OnActivate {
     String date,
     String sex,
     String campus) async {
-      final year = date.substring(0, 3);
-      final month = date.substring(3, 5);
-      final day = date.substring(5, 7);
+      final year = date.substring(0, 4);
+      final month = date.substring(4, 6);
+      final day = date.substring(6, 8);
       try {
         final res = await _rockService.signUp(email, password, name, mobile, '$year-$month-$day', sex, campus, address, school, major, grade, guide);
         _snackbarService.showMessage(res);

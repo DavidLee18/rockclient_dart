@@ -20,8 +20,7 @@ class RockService {
   static const _retreat = "http://cba.sungrak.or.kr:9000/retreat";
   static const _leaders = "http://cba.sungrak.or.kr:9000/leaders";
   static const _members = "http://cba.sungrak.or.kr:9000/members";
-  static String _uid = null;
-  get uid => _uid;
+  get uid => firebase.auth().currentUser?.uid;
   final Client _http;
 
   RockService(this._http) {
@@ -35,10 +34,6 @@ class RockService {
         messagingSenderId: "1069252633339"
       );
     }
-    firebase.auth().onAuthStateChanged.listen((user) {
-      _uid = user?.uid;
-      });
-    firebase.auth().signOut();
   }
   Future<Map> get Leaders async {
     try {
@@ -104,7 +99,7 @@ class RockService {
       if(uid == null) throw ArgumentError("uid is not defined");
       final res = await _http.post(_retreat + '/register', headers: _headers, 
       body: jsonEncode({
-        "memberUid": _uid,
+        "memberUid": uid,
         "lectureHope": lectureHope,
         "originalGbs": originalGbs,
         "retreatGbs": retreatGbs,
@@ -126,7 +121,7 @@ class RockService {
   }
   Future<dynamic> signIn(String email, String password) async {
     try{
-      if(firebase.auth().currentUser != null) await signOut();
+      if(uid != null) await signOut();
       await firebase.auth().signInWithEmailAndPassword(email, password);
       return true;
     } catch(e) {
