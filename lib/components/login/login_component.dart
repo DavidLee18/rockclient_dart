@@ -11,7 +11,10 @@ import 'package:firebase/firebase.dart' as firebase;
   providers: [SnackbarService],
   directives: [
     materialInputDirectives,
+    AutoFocusDirective,
     MaterialButtonComponent,
+    MaterialDialogComponent,
+    ModalComponent,
     NgModel,
     SkawaSnackbarComponent,
   ]
@@ -22,15 +25,22 @@ class LoginComponent implements OnActivate {
   final SnackbarService _snackbarService;
   var email = '';
   var password = '';
+  var error = false;
+  var errorText = ''; 
 
   gotoSignup() async => await _router.navigate('/sign_up');
 
   logIn() async {
     try {
-      await _rockService.signIn(email, password);
-      await _router.navigate('/register_retreat');
+      final result = await _rockService.signIn(email, password);
+      if(result == true) await _router.navigate('/register_retreat');
+      else {
+        errorText = "Somehow Login failed for an unkwown reason...";
+        error = true;
+      }
     } catch (e) {
-      _snackbarService.showMessage('login failed: ${e.toString()}');
+      errorText = e.toString();
+      error = true;
     }
   }
 

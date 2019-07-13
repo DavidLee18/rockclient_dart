@@ -8,3 +8,12 @@
     <material-button (trigger)="logIn" raised>로그인</material-button>
 </section>
 <skawa-snackbar></skawa-snackbar>
+<modal [(visible)]="error">
+    <material-dialog headered>
+        <h1 header>Error</h1>
+        <p>{{errorText}}</p>
+        <div footer>
+            <material-button autoFocus clear-size (trigger)="error = false">Close</material-button>
+        </div>
+    </material-dialog>
+</modal>
