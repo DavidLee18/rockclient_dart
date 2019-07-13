@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:angular/core.dart';
 import 'package:http/http.dart';
+import 'package:firebase/firebase.dart' as firebase;
 
 import 'grade.dart';
 
@@ -21,10 +22,24 @@ class RockService {
   static const _members = "http://cba.sungrak.or.kr:9000/members";
   static String _uid = null;
   get uid => _uid;
-  set uid(String val) { _uid = val; }
   final Client _http;
 
-  RockService(this._http);
+  RockService(this._http) {
+    if(firebase.apps.length == 0){
+      firebase.initializeApp(
+        apiKey: "AIzaSyBkhrchnoMwgz67nJGi3qETa6EgG1xXjM0",
+        authDomain: "cba-retreat.firebaseapp.com",
+        databaseURL: "https://cba-retreat.firebaseio.com",
+        projectId: "cba-retreat",
+        storageBucket: "cba-retreat.appspot.com",
+        messagingSenderId: "1069252633339"
+      );
+    }
+    firebase.auth().onAuthStateChanged.listen((user) {
+      _uid = user?.uid;
+      });
+    firebase.auth().signOut();
+  }
   Future<Map> get Leaders async {
     try {
       final response = await _http.get(_leaders, headers: _headers);
@@ -109,6 +124,16 @@ class RockService {
       throw e;
     }
   }
+  Future<dynamic> signIn(String email, String password) async {
+    try{
+      if(firebase.auth().currentUser != null) await signOut();
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+      return true;
+    } catch(e) {
+      throw e;
+    }
+  }
+  Future<dynamic> signOut() async => await firebase.auth().signOut();
   Future<String> delete(int id) async {
     try {
       final res = await _http.delete(_leaders + "/$id", headers: _headers);

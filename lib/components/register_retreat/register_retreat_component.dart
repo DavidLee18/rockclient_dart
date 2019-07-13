@@ -16,7 +16,7 @@ import 'package:rockclient_dart/rock_service.dart';
 )
 class RegisterRetreatComponent implements OnActivate {
   final RockService _rockService;
-  var lecture = "단계별 강의";
+  var lecture = null;
   final lectures = [
     "성락교회 캠퍼스 베뢰아의 사명",
     "성장 그리고 사명",
@@ -47,6 +47,7 @@ class RegisterRetreatComponent implements OnActivate {
   register(lecture, weeklyGbs, retreatGbs, position) async {
     await _rockService.registerRetreat(lecture, weeklyGbs, retreatGbs, position);
     registered = true;
+    await _rockService.signOut();
   }
 
   @override

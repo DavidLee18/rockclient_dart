@@ -27,12 +27,7 @@ class LoginComponent implements OnActivate {
 
   logIn() async {
     try {
-      if(firebase.auth().currentUser != null) {
-        await firebase.auth().signOut();
-        _rockService.uid = null;
-      }
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-      _rockService.uid = firebase.auth().currentUser.uid;
+      await _rockService.signIn(email, password);
       await _router.navigate('/register_retreat');
     } catch (e) {
       _snackbarService.showMessage('login failed: ${e.toString()}');
@@ -42,18 +37,5 @@ class LoginComponent implements OnActivate {
   LoginComponent(this._rockService, this._router, this._snackbarService);
 
   @override
-  void onActivate(RouterState previous, RouterState current) {
-    if(firebase.apps.length == 0)
-    firebase.initializeApp(
-      apiKey: "AIzaSyBkhrchnoMwgz67nJGi3qETa6EgG1xXjM0",
-      authDomain: "cba-retreat.firebaseapp.com",
-      databaseURL: "https://cba-retreat.firebaseio.com",
-      projectId: "cba-retreat",
-      storageBucket: "cba-retreat.appspot.com",
-      messagingSenderId: "1069252633339"
-    );
-    firebase.auth().onAuthStateChanged.listen((user) async {
-      if(user?.uid != null) _snackbarService.showMessage('login succeeded: ${user.uid}');
-      });
-  }
+  void onActivate(RouterState previous, RouterState current) {}
 }

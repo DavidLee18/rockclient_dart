@@ -2,7 +2,6 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:angular_router/angular_router.dart';
-//import 'package:intl/date_symbol_data_http_request.dart';
 import 'package:intl/intl.dart';
 import 'package:skawa_material_components/snackbar/snackbar.dart';
 import 'package:firebase/firebase.dart' as firebase;
@@ -69,19 +68,12 @@ class SignUpComponent implements OnActivate {
 
   goback() async => await _router.navigate("/");
   goRegisterRetreat() async {
-    if(firebase.apps.length == 0) {
-      firebase.initializeApp(
-        apiKey: "AIzaSyBkhrchnoMwgz67nJGi3qETa6EgG1xXjM0",
-        authDomain: "cba-retreat.firebaseapp.com",
-        databaseURL: "https://cba-retreat.firebaseio.com",
-        projectId: "cba-retreat",
-        storageBucket: "cba-retreat.appspot.com",
-        messagingSenderId: "1069252633339"
-      );
+    try {
+      _rockService.signIn(email, password);
+      await _router.navigate('/register_retreat');
+    } catch (e) {
+      throw e;
     }
-    firebase.auth().signInWithEmailAndPassword(email, password);
-    _rockService.uid = firebase.auth().currentUser.uid;
-    await _router.navigate('/register_retreat');
   }
 
   void signUp(
@@ -100,6 +92,7 @@ class SignUpComponent implements OnActivate {
         _snackbarService.showMessage(res);
         signUpSuccess = true;
       } catch (e) {
+        throw e;
       }
   }
 
