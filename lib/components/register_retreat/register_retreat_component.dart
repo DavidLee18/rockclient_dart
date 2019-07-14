@@ -10,6 +10,8 @@ import 'package:rockclient_dart/rock_service.dart';
     materialInputDirectives,
     MaterialDropdownSelectComponent,
     MaterialButtonComponent,
+    MaterialDialogComponent,
+    ModalComponent,
     NgModel,
     NgIf,
   ]
@@ -43,24 +45,23 @@ class RegisterRetreatComponent implements OnActivate {
   var already = false;
   Map _info;
 
+  var error = false;
+  var errorText = '';
+
   RegisterRetreatComponent(this._rockService);
 
-  register(lecture, weeklyGbs, retreatGbs, position) async {
-    await _rockService.registerRetreat(lecture, weeklyGbs, retreatGbs, position);
-    registered = true;
-    await _rockService.signOut();
-  }
-  edit(retreatGbs, position) async {
-    await _rockService.editRetreat(retreatGbs, position);
-    registered = true;
-    await _rockService.signOut();
-  }
-  go() {
+  go() async {
+    dynamic res;
     if (already) {
-      edit(retreat_gbs, position);
+      res = await _rockService.editRetreat(retreat_gbs, position);
     } else {
-      register(lecture, gbs, retreat_gbs, position);
+      res = await _rockService.registerRetreat(lecture, gbs, retreat_gbs, position);
     }
+    registered = res == 200;
+    if(!registered) {
+      errorText = res; error = true;
+    }
+    await _rockService.signOut();
   }
 
   @override

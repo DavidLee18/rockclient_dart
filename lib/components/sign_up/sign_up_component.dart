@@ -21,6 +21,8 @@ import '../../rock_service.dart';
     MaterialDatepickerComponent,
     MaterialCheckboxComponent,
     MaterialButtonComponent,
+    MaterialDialogComponent,
+    ModalComponent,
     SkawaSnackbarComponent,
     NgFor,
     NgIf,
@@ -64,6 +66,9 @@ class SignUpComponent implements OnActivate {
   var errorValid = '';
   var errorBorn = '';
 
+  var error = false;
+  var errorText = '';
+
   SignUpComponent(this._rockService, this._router, this._snackbarService);
 
   goback() async => await _router.navigate("/");
@@ -90,8 +95,10 @@ class SignUpComponent implements OnActivate {
       final day = date.substring(6, 8);
       try {
         final res = await _rockService.signUp(email, password, name, mobile, '$year-$month-$day', sex, campus, address, school, major, grade, guide);
-        _snackbarService.showMessage(res);
-        signUpSuccess = true;
+        signUpSuccess = res == 200;
+        if(!signUpSuccess) {
+          errorText = res; error = true;
+        }
       } catch (e) {
         throw e;
       }

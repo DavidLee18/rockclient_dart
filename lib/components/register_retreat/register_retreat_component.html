@@ -20,3 +20,12 @@
 <div *ngIf="registered">
     <h2>축하합니다! 수련회 등록을 마쳤습니다. 수련회 성공하세요!</h2>
 </div>
+<modal [(visible)]="error">
+    <material-dialog headered>
+        <h1 header>Error</h1>
+        <p>{{errorText}}</p>
+        <div footer>
+            <material-button autoFocus clear-size (trigger)="error = false">Close</material-button>
+        </div>
+    </material-dialog>
+</modal>

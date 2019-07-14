@@ -35,6 +35,7 @@ class RockService {
       );
     }
   }
+  resOrError(Response r) => r.statusCode != 200 && r.headers['content-type'] == 'application/json' ? jsonDecode(r.body)['data'] : r.statusCode;
   Future<Map> get Leaders async {
     try {
       final response = await _http.get(_leaders, headers: _headers);
@@ -58,7 +59,7 @@ class RockService {
       throw e;
     }
   }
-  Future<String> signUp(
+  Future<dynamic> signUp(
     String email, 
     String password,
     String name,
@@ -89,7 +90,7 @@ class RockService {
           "guide": guide,
         })
         );
-        return res.body;
+        return resOrError(res);
       } catch (e) {
         throw e;
       }
@@ -105,7 +106,7 @@ class RockService {
         "retreatGbs": retreatGbs,
         "position": position,
       }));
-    return res.body;
+    return resOrError(res);
     }
     catch(e) { throw e; }
   }
@@ -118,17 +119,17 @@ class RockService {
         "retreatGbs": retreatGbs,
         "position": position,
       }));
-      return res;
+      return resOrError(res);
     } catch (e) {
       throw e;
     }
   }
-  Future<Map> get MyInfo async {
+  Future<dynamic> get MyInfo async {
     try {
       if(uid == null) throw ArgumentError("uid is not defined");
       final res = await _http.get('http://cba.sungrak.or.kr:9000/getMyInfo/$uid', headers: _headers);
       final info = json.decode(res.body) as Map;
-      return info;
+      return res.statusCode != 200 && res.headers['content-type'] == 'application/json' ? jsonDecode(res.body)['data'] : info;
     } catch (e) {
       throw e;
     }
