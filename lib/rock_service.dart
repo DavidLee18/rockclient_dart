@@ -109,6 +109,20 @@ class RockService {
     }
     catch(e) { throw e; }
   }
+  Future<dynamic> editRetreat(String retreatGbs, String position) async {
+    try {
+      if(uid == null) throw ArgumentError("uid is not defined");
+      final res = await _http.post(_retreat +'/edit', headers: _headers,
+      body: jsonEncode({
+        "memberUid": uid,
+        "retreatGbs": retreatGbs,
+        "position": position,
+      }));
+      return res;
+    } catch (e) {
+      throw e;
+    }
+  }
   Future<Map> get MyInfo async {
     try {
       if(uid == null) throw ArgumentError("uid is not defined");
