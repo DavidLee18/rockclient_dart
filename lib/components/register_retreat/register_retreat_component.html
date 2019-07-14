@@ -1,5 +1,5 @@
 <div *ngIf="!registered">
-    <h1>수련회 등록</h1>
+    <h1>수련회 {{ already ? "수정" : "등록"}}</h1>
     <h2 *ngIf="already">수련회를 이미 등록했습니다.</h2>
     <p>
         <material-dropdown-select [buttonText]="position" [options]="positions" [(selection)]="position"></material-dropdown-select>
@@ -15,7 +15,7 @@
         <material-dropdown-select [buttonText]="lecture" [options]="lectures" [(selection)]="lecture"></material-dropdown-select>
     </p>
     -->
-    <material-button (trigger)="go" raised>{{ already ? "수정" : "등록"}}</material-button>
+    <material-button (trigger)="go" [disabled]="!Valid" raised>{{ already ? "수정" : "등록"}}</material-button>
 </div>
 <div *ngIf="registered">
     <h2>축하합니다! 수련회 등록을 마쳤습니다. 수련회 성공하세요!</h2>

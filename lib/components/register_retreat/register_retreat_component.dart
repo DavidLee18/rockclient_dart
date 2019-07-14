@@ -8,6 +8,7 @@ import 'package:rockclient_dart/rock_service.dart';
   templateUrl: 'register_retreat_component.html',
   directives: [
     materialInputDirectives,
+    AutoFocusDirective,
     MaterialDropdownSelectComponent,
     MaterialButtonComponent,
     MaterialDialogComponent,
@@ -63,6 +64,10 @@ class RegisterRetreatComponent implements OnActivate {
     }
     await _rockService.signOut();
   }
+
+  get Valid => retreat_gbs != "수련회 단계"
+  && position != "조원구분"
+  && gbs != "기존 GBS 단계";
 
   @override
   void onActivate(RouterState previous, RouterState current) async {
