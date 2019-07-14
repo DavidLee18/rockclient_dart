@@ -32,7 +32,7 @@ class LoginComponent implements OnActivate {
 
   logIn() async {
     try {
-      final result = await _rockService.signIn(email, password);
+      final result = await _rockService.signIn(email.trim(), password);
       if(result == true) await _router.navigate('/register_retreat');
       else {
         errorText = "Somehow Login failed for an unkwown reason...";
