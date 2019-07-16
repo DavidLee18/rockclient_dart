@@ -36,7 +36,7 @@ class RockService {
       );
     }
   }
-  Tuple2<int, String> resOrError(Response r) => Tuple2(r.statusCode, r.headers['content-type'] == 'application/json' ? jsonDecode(r.body)['data'] : "");
+  Tuple2<int, String> resOrError(Response r) => Tuple2(r.statusCode, r.headers['content-type'].contains('application/json') ? jsonDecode(r.body)['data'] : "");
   Future<Map> get Leaders async {
     try {
       final response = await _http.get(_leaders, headers: _headers);
@@ -73,67 +73,52 @@ class RockService {
     String major,
     String grade,
     String guide) async {
-      try {
-        final res = await _http.post(_members + "/join",
-        headers: _headers,
-        body: jsonEncode({
-          "email": email,
-          "password": password,
-          "name": name,
-          "mobile": mobile,
-          "birthDate": birth,
-          "sex": sex,
-          "campus": campus,
-          "address": address,
-          "school": school,
-          "major": major,
-          "grade": grade,
-          "guide": guide,
+      final res = await _http.post(_members + "/join",
+      headers: _headers,
+      body: jsonEncode({
+        "email": email,
+        "password": password,
+        "name": name,
+        "mobile": mobile,
+        "birthDate": birth,
+        "sex": sex,
+        "campus": campus,
+        "address": address,
+        "school": school,
+        "major": major,
+        "grade": grade,
+        "guide": guide,
         })
-        );
-        return resOrError(res);
-      } catch (e) {
-        throw e;
-      }
+      );
+      return resOrError(res);
   }
   Future<Tuple2<int, String>> registerRetreat(String lectureHope, String originalGbs, String retreatGbs, String position) async {
-    try{
-      ArgumentError.checkNotNull(uid);
-      final res = await _http.post(_retreat + '/register', headers: _headers, 
-      body: jsonEncode({
-        "memberUid": uid,
-        "lectureHope": lectureHope,
-        "originalGbs": originalGbs,
-        "retreatGbs": retreatGbs,
-        "position": position,
-      }));
+    ArgumentError.checkNotNull(uid, 'uid');
+    final res = await _http.post(_retreat + '/register', headers: _headers, 
+    body: jsonEncode({
+      "memberUid": uid,
+      "lectureHope": lectureHope,
+      "originalGbs": originalGbs,
+      "retreatGbs": retreatGbs,
+      "position": position,
+    }));
     return resOrError(res);
-    }
-    catch(e) { throw e; }
   }
   Future<Tuple2<int, String>> editRetreat(String retreatGbs, String position) async {
-    try {
-      ArgumentError.checkNotNull(uid);
-      final res = await _http.post(_retreat +'/edit', headers: _headers,
-      body: jsonEncode({
-        "memberUid": uid,
-        "retreatGbs": retreatGbs,
-        "position": position,
-      }));
-      return resOrError(res);
-    } catch (e) {
-      throw e;
-    }
+    ArgumentError.checkNotNull(uid, 'uid');
+    final res = await _http.post(_retreat +'/edit', headers: _headers,
+    body: jsonEncode({
+      "memberUid": uid,
+      "retreatGbs": retreatGbs,
+      "position": position,
+    }));
+    return resOrError(res);
   }
   Future<Tuple2<int, Map>> get MyInfo async {
-    try {
-      ArgumentError.checkNotNull(uid);
-      final res = await _http.get('http://cba.sungrak.or.kr:9000/getMyInfo/$uid', headers: _headers);
-      final info = json.decode(res.body) as Map;
-      return Tuple2(res.statusCode, info);
-    } catch (e) {
-      throw e;
-    }
+    ArgumentError.checkNotNull(uid, 'uid');
+    final res = await _http.get('http://cba.sungrak.or.kr:9000/getMyInfo/$uid', headers: _headers);
+    final info = json.decode(res.body) as Map;
+    return Tuple2(res.statusCode, info);
   }
   Future<bool> signIn(String email, String password) async {
     try{
@@ -144,7 +129,10 @@ class RockService {
       throw e;
     }
   }
-  Future<dynamic> signOut() async => await firebase.auth().signOut();
+  void signOut() async {
+    if(uid == null) return;
+    await firebase.auth().signOut();
+  }
   Future<String> delete(int id) async {
     try {
       final res = await _http.delete(_leaders + "/$id", headers: _headers);

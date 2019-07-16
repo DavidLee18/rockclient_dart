@@ -65,6 +65,8 @@ class RegisterRetreatComponent implements OnActivate {
       if(!registered) {
         errorText = res.item2; error = true;
       }
+    } on ArgumentError catch (e) {
+      if(e.name == 'uid') await _router.navigate('/login');
     } catch (e) {
       errorText = e.toString(); error = true;
     }
@@ -83,7 +85,6 @@ class RegisterRetreatComponent implements OnActivate {
       _info = await _rockService.MyInfo;
       this.already = _info.item1 == 200
       && _info.item2['retreat_id'] != null
-      && _info.item2['gbsLevel'] != null
       && _info.item2['position'] != null
       && _info.item2['retreatGbs'] != null
       && _info.item2['originalGbs'] != null;
