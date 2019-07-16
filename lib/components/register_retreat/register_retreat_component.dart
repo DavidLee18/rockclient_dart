@@ -52,17 +52,23 @@ class RegisterRetreatComponent implements OnActivate {
   RegisterRetreatComponent(this._rockService);
 
   go() async {
-    dynamic res;
-    if (already) {
-      res = await _rockService.editRetreat(retreat_gbs, position);
-    } else {
-      res = await _rockService.registerRetreat(lecture, gbs, retreat_gbs, position);
+    try {
+      dynamic res;
+      if (already) {
+        res = await _rockService.editRetreat(retreat_gbs, position);
+      } else {
+        res = await _rockService.registerRetreat(lecture, gbs, retreat_gbs, position);
+      }
+      registered = res == 200;
+      if(!registered) {
+        errorText = res; error = true;
+      }
+    } catch (e) {
+      errorText = e.toString(); error = true;
     }
-    registered = res == 200;
-    if(!registered) {
-      errorText = res; error = true;
+    finally {
+      await _rockService.signOut();
     }
-    await _rockService.signOut();
   }
 
   get Valid => retreat_gbs != "수련회 단계"
