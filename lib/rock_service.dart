@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:angular/core.dart';
 import 'package:http/http.dart';
 import 'package:firebase/firebase.dart' as firebase;
+import 'package:tuple/tuple.dart';
 
 import 'grade.dart';
 
@@ -35,7 +36,7 @@ class RockService {
       );
     }
   }
-  resOrError(Response r) => r.statusCode != 200 && r.headers['content-type'] == 'application/json' ? jsonDecode(r.body)['data'] : r.statusCode;
+  Tuple2<int, String> resOrError(Response r) => Tuple2(r.statusCode, r.headers['content-type'] == 'application/json' ? jsonDecode(r.body)['data'] : "");
   Future<Map> get Leaders async {
     try {
       final response = await _http.get(_leaders, headers: _headers);
@@ -59,7 +60,7 @@ class RockService {
       throw e;
     }
   }
-  Future<dynamic> signUp(
+  Future<Tuple2<int, String>> signUp(
     String email, 
     String password,
     String name,
@@ -95,9 +96,9 @@ class RockService {
         throw e;
       }
   }
-  Future<String> registerRetreat(String lectureHope, String originalGbs, String retreatGbs, String position) async {
+  Future<Tuple2<int, String>> registerRetreat(String lectureHope, String originalGbs, String retreatGbs, String position) async {
     try{
-      if(uid == null) throw ArgumentError("uid is not defined");
+      ArgumentError.checkNotNull(uid);
       final res = await _http.post(_retreat + '/register', headers: _headers, 
       body: jsonEncode({
         "memberUid": uid,
@@ -110,9 +111,9 @@ class RockService {
     }
     catch(e) { throw e; }
   }
-  Future<dynamic> editRetreat(String retreatGbs, String position) async {
+  Future<Tuple2<int, String>> editRetreat(String retreatGbs, String position) async {
     try {
-      if(uid == null) throw ArgumentError("uid is not defined");
+      ArgumentError.checkNotNull(uid);
       final res = await _http.post(_retreat +'/edit', headers: _headers,
       body: jsonEncode({
         "memberUid": uid,
@@ -124,17 +125,17 @@ class RockService {
       throw e;
     }
   }
-  Future<dynamic> get MyInfo async {
+  Future<Tuple2<int, Map>> get MyInfo async {
     try {
-      if(uid == null) throw ArgumentError("uid is not defined");
+      ArgumentError.checkNotNull(uid);
       final res = await _http.get('http://cba.sungrak.or.kr:9000/getMyInfo/$uid', headers: _headers);
       final info = json.decode(res.body) as Map;
-      return res.statusCode != 200 && res.headers['content-type'] == 'application/json' ? jsonDecode(res.body)['data'] : info;
+      return Tuple2(res.statusCode, info);
     } catch (e) {
       throw e;
     }
   }
-  Future<dynamic> signIn(String email, String password) async {
+  Future<bool> signIn(String email, String password) async {
     try{
       if(uid != null) await signOut();
       await firebase.auth().signInWithEmailAndPassword(email, password);

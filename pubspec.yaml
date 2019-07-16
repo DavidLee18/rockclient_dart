@@ -9,6 +9,7 @@ dependencies:
   skawa_material_components: ^1.1.0+1
   angular_router: ^2.0.0-alpha+21
   firebase: ^5.0.0
+  tuple: ^1.0.2
 dev_dependencies:
   angular_test: ^2.2.0
   build_runner: ^1.5.0
