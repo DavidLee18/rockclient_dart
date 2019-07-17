@@ -46,9 +46,9 @@ class RegisterMongsanpoComponent {
 
   void register(String name, String mobile, String belongTo, String carType, String carNumber) async {
     try {
-      final res = await _rockService.registerMongsanpo(name, mobile, belongTo, '$carType $carNumber');
+      final res = await _rockService.registerMongsanpo(name, mobile, belongTo, carType!= null && carNumber != null ? '$carType $carNumber' : null);
       registered = res.item1 == 200;
       if(!registered) { errorText = '${res.item1}: ${res.item2}'; error = true; }
-    } catch (e) { errorText = e.toString(); error = true; }
+    } catch (e, s) { errorText = e.toString() + "\n${s.toString()}"; error = true; }
   }
 }

@@ -37,7 +37,7 @@ class RockService {
       );
     }
   }
-  Tuple2<int, String> resOrError(Response r) => Tuple2(r.statusCode, r.headers['content-type'].contains('application/json') ? jsonDecode(r.body)['data'] : "");
+  Tuple2<int, String> resOrError(Response r) => Tuple2(r.statusCode, r.headers['content-type']?.contains('application/json') == true ? jsonDecode(r.body)['data'] : "");
   Future<Map> get Leaders async {
     try {
       final response = await _http.get(_leaders, headers: _headers);
