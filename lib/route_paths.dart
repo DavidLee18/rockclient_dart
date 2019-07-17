@@ -7,4 +7,5 @@ class RoutePaths {
   static final login = RoutePath(path: 'login');
   static final registerRetreat = RoutePath(path: 'register_retreat');
   static final retreatInfo = RoutePath(path: 'retreat_info');
+  static final registerMongsanpo = RoutePath(path: 'register_mongsanpo');
 }

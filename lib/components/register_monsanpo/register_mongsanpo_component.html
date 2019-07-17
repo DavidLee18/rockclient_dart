@@ -1,0 +1,27 @@
+<div *ngIf="!registered">
+<h1>몽산포 수련회 등록</h1>
+<h5>예수 그리스도는 어제나 오늘이나 영원토록 동일하시니라</h5>
+<p><material-input label="이름" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="name"></material-input></p>
+<p><material-input label="연락처" type="tel" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="mobile"
+        [error]="errorMobile" (inputKeyPress)="onMobile($event)"></material-input></p>
+<p><material-input label="차량 소유주" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="belongTo"></material-input></p>
+<p><material-input label="차종" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="carType"></material-input></p>
+<p><material-input label="차량 번호" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="carNumber"></material-input></p>
+<p><material-button raised [disabled]="!Valid" (trigger)="register(name, mobile, belongTo, carType, carNumber)">등록</material-button></p>
+</div>
+<div *ngIf="registered">
+    <h2>축하합니다!</h2>
+    <p>
+        몽산포 수련회 등록에 성공했습니다.
+        수련회 성공하세요!
+    </p>
+</div>
+<modal [(visible)]="error">
+    <material-dialog headered>
+        <h1 header>Error</h1>
+        <p>{{errorText}}</p>
+        <div footer>
+            <material-button autoFocus clear-size (trigger)="error = false">Close</material-button>
+        </div>
+    </material-dialog>
+</modal>

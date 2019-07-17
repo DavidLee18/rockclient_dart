@@ -21,6 +21,7 @@ class RockService {
   static const _retreat = "http://cba.sungrak.or.kr:9000/retreat";
   static const _leaders = "http://cba.sungrak.or.kr:9000/leaders";
   static const _members = "http://cba.sungrak.or.kr:9000/members";
+  static const _mongsanpo = 'http://cba.sungrak.or.kr:9000/mongsanpo/members';
   get uid => firebase.auth().currentUser?.uid;
   final Client _http;
 
@@ -91,6 +92,16 @@ class RockService {
         })
       );
       return resOrError(res);
+  }
+  Future<Tuple2<int, String>> registerMongsanpo(String name, String mobile, String belongTo, String carTypeAndNumber) async {
+    final res = await _http.post(_mongsanpo, headers: _headers,
+    body: jsonEncode({
+      'name': name,
+      'mobile': mobile,
+      'belongTo': belongTo,
+      'carNumber': carTypeAndNumber,
+    }));
+    return resOrError(res);
   }
   Future<Tuple2<int, String>> registerRetreat(String lectureHope, String originalGbs, String retreatGbs, String position) async {
     ArgumentError.checkNotNull(uid, 'uid');

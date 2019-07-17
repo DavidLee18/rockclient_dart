@@ -121,7 +121,7 @@ class SignUpComponent implements OnActivate {
   }
 
   bool get isValid => name.length > 0
-  && mobile.length > 0
+  && mobile.contains(RegExp(r"^\d{9,11}$"))
   && school.length > 0
   && major.length > 0
   && email.length > 0
