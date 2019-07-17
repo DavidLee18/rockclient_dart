@@ -9,6 +9,7 @@ import 'package:rockclient_dart/rock_service.dart';
     materialInputDirectives,
     AutoFocusDirective,
     MaterialButtonComponent,
+    MaterialCheckboxComponent,
     MaterialDialogComponent,
     ModalComponent,
     NgIf,
@@ -20,6 +21,7 @@ class RegisterMongsanpoComponent {
   var name = '';
   var mobile = '';
   var belongTo = '';
+  var hasCar = false;
   var carType = '';
   var carNumber = '';
 
@@ -31,11 +33,12 @@ class RegisterMongsanpoComponent {
 
   RegisterMongsanpoComponent(this._rockService);
 
-  bool get Valid => name.length > 0
+  bool get Valid => hasCar ? name.length > 0
   && mobile.contains(RegExp(r"^\d{9,11}$"))
   && belongTo.length > 0
   && carType.length > 0
-  &&carNumber.length > 0;
+  && carNumber.length > 0 :
+  name.length > 0 && mobile.contains(RegExp(r"^\d{9,11}$")) && belongTo.length > 0;
 
   void onMobile(String val) {
     errorMobile = !val.contains(RegExp(r"^\d{9,11}$")) ? "전화번호를 숫자만 입력하세요" : null;
@@ -45,7 +48,7 @@ class RegisterMongsanpoComponent {
     try {
       final res = await _rockService.registerMongsanpo(name, mobile, belongTo, '$carType $carNumber');
       registered = res.item1 == 200;
-      if(!registered) { errorText = '${res.item1}:${res.item2}'; error = true; }
+      if(!registered) { errorText = '${res.item1}: ${res.item2}'; error = true; }
     } catch (e) { errorText = e.toString(); error = true; }
   }
 }

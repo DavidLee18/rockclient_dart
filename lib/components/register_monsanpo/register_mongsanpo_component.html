@@ -1,13 +1,18 @@
 <div *ngIf="!registered">
 <h1>몽산포 수련회 등록</h1>
 <h5>예수 그리스도는 어제나 오늘이나 영원토록 동일하시니라</h5>
-<p><material-input label="이름" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="name"></material-input></p>
-<p><material-input label="연락처" type="tel" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="mobile"
-        [error]="errorMobile" (inputKeyPress)="onMobile($event)"></material-input></p>
-<p><material-input label="차량 소유주" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="belongTo"></material-input></p>
-<p><material-input label="차종" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="carType"></material-input></p>
-<p><material-input label="차량 번호" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="carNumber"></material-input></p>
-<p><material-button raised [disabled]="!Valid" (trigger)="register(name, mobile, belongTo, carType, carNumber)">등록</material-button></p>
+<section>
+    <material-input label="이름" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="name"></material-input>
+    <material-input label="연락처" type="tel" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="mobile"
+        [error]="errorMobile" (inputKeyPress)="onMobile($event)"></material-input>
+</section>
+<material-input label="예배당" floatingLabel required requiredErrorMsg="값을 입력하세요" [(ngModel)]="belongTo"></material-input>
+<p><material-checkbox [(checked)]="hasCar" label="차량을 가져오셨나요?"></material-checkbox></p>
+<section *ngIf="hasCar">
+    <material-input label="차종" floatingLabel [disabled]="!hasCar" required requiredErrorMsg="값을 입력하세요" [(ngModel)]="carType"></material-input>
+    <material-input label="차량 번호" floatingLabel [disabled]="!hasCar" required requiredErrorMsg="값을 입력하세요" [(ngModel)]="carNumber"></material-input>
+</section>
+<material-button raised [disabled]="!Valid" (trigger)="register(name, mobile, belongTo, carType, carNumber)">등록</material-button>
 </div>
 <div *ngIf="registered">
     <h2>축하합니다!</h2>
