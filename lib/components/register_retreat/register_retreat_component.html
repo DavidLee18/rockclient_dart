@@ -18,7 +18,7 @@
     <material-button (trigger)="go" [disabled]="!Valid" raised>{{ already ? "수정" : "등록"}}</material-button>
 </div>
 <div *ngIf="registered">
-    <h2>축하합니다! 수련회 등록을 마쳤습니다. 수련회 성공하세요!</h2>
+    <h2>축하합니다! 수련회 {{ already ? "수정" : "등록"}}을 마쳤습니다. 수련회 성공하세요!</h2>
 </div>
 <modal [(visible)]="error">
     <material-dialog headered>
