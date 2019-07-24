@@ -15,11 +15,8 @@
 <material-button raised [disabled]="!Valid" (trigger)="register(name, mobile, belongTo, carType, carNumber)">등록</material-button>
 </div>
 <div *ngIf="registered">
-    <h2>축하합니다!</h2>
-    <p>
-        몽산포 수련회 등록에 성공했습니다.
-        수련회 성공하세요!
-    </p>
+    <h1>축하합니다!</h1>
+    <h2>몽산포 수련회 등록에 성공했습니다. <br> 수련회 성공하세요!</h2>
 </div>
 <modal [(visible)]="error">
     <material-dialog headered>
