@@ -161,4 +161,12 @@ class RockService {
       throw e;
     }
   }
+  Future<dynamic> resetPass(String email) async {
+    try {
+      final res = await firebase.auth().sendPasswordResetEmail(email);
+      return res;
+    } catch(e) {
+      throw e;
+    }
+  }
 }

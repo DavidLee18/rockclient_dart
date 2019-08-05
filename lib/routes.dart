@@ -8,6 +8,7 @@ import 'components/register_retreat/register_retreat_component.template.dart' as
 import 'components/retreat_info/retreat_info_component.template.dart' as retreat_info_template;
 import 'components/register_monsanpo/register_mongsanpo_component.template.dart' as register_mongsanpo_template;
 import 'components/not_found/not_found_component.template.dart' as not_found_template;
+import 'components/reset_password/reset_password_component.template.dart' as reset_pass_template;
 
 import 'route_paths.dart';
 
@@ -41,8 +42,12 @@ class Routes {
     routePath: RoutePaths.registerMongsanpo,
     component: register_mongsanpo_template.RegisterMongsanpoComponentNgFactory
   );
+  static final resetPassword = RouteDefinition(
+    routePath: RoutePaths.resetPassword,
+    component: reset_pass_template.ResetPasswordComponentNgFactory
+  );
 
-  static final List<RouteDefinition> all = [search, signup, members, login, registerRetreat, retreatInfo, registerMongsanpo,
+  static final List<RouteDefinition> all = [search, signup, members, login, registerRetreat, retreatInfo, registerMongsanpo, resetPassword,
     RouteDefinition.redirect(path: '', redirectTo: RoutePaths.login.toUrl()),
     RouteDefinition(path: '.+', component: not_found_template.NotFoundComponentNgFactory)
     ];

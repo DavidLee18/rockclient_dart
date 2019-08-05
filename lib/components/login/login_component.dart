@@ -29,6 +29,7 @@ class LoginComponent implements OnActivate {
   var errorText = ''; 
 
   gotoSignup() async => await _router.navigate('/sign_up');
+  gotoResetPass() async => await _router.navigate('/reset_password');
 
   logIn() async {
     try {
