@@ -1,6 +1,6 @@
 <div *ngIf="!registered">
     <h1>수련회 {{ already ? "수정" : "등록"}}</h1>
-    <h2 *ngIf="already">수련회를 이미 등록했습니다.</h2>
+    <skawa-infobar icon="info" *ngIf="already">수련회를 이미 등록했습니다.</skawa-infobar>
     <p>
         <material-dropdown-select [buttonText]="position" [options]="positions" [(selection)]="position"></material-dropdown-select>
     </p>

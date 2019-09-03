@@ -1,9 +1,5 @@
-import 'dart:convert';
-import 'dart:html';
-
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
-import 'package:angular_components/utils/browser/window/module.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:skawa_material_components/snackbar/snackbar.dart';
 

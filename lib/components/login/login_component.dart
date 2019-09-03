@@ -2,8 +2,8 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:rockclient_dart/rock_service.dart';
+import 'package:rockclient_dart/route_paths.dart';
 import 'package:skawa_material_components/snackbar/snackbar.dart';
-import 'package:firebase/firebase.dart' as firebase;
 
 @Component(
   selector: 'login-component',
@@ -29,12 +29,12 @@ class LoginComponent implements OnActivate {
   var errorText = ''; 
 
   gotoSignup() async => await _router.navigate('/sign_up');
-  gotoResetPass() async => await _router.navigate('/reset_password');
+  gotoResetPass() async => await _router.navigate(RoutePaths.resetPassword.toUrl());
 
   logIn() async {
     try {
       final result = await _rockService.signIn(email.trim(), password);
-      if(result == true) await _router.navigate('/register_retreat');
+      if(result == true) await _router.navigate(RoutePaths.registerRetreat.toUrl());
       else {
         errorText = "Somehow Login failed for an unkwown reason...";
         error = true;

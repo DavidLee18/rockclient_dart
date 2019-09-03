@@ -4,8 +4,8 @@ import 'components/leaders_search/leaders_search_component.template.dart' as lea
 import 'components/sign_up/sign_up_component.template.dart' as sign_up_template;
 import 'components/members/members_component.template.dart' as members_template;
 import 'components/login/login_component.template.dart' as login_template;
+import 'components/retreat/retreat_component.template.dart' as retreat_template;
 import 'components/register_retreat/register_retreat_component.template.dart' as register_retreat_template;
-import 'components/retreat_info/retreat_info_component.template.dart' as retreat_info_template;
 import 'components/register_monsanpo/register_mongsanpo_component.template.dart' as register_mongsanpo_template;
 import 'components/not_found/not_found_component.template.dart' as not_found_template;
 import 'components/reset_password/reset_password_component.template.dart' as reset_pass_template;
@@ -30,13 +30,13 @@ class Routes {
     routePath: RoutePaths.login,
     component: login_template.LoginComponentNgFactory
   );
+  static final retreat = RouteDefinition(
+    routePath: RoutePaths.retreat,
+    component: retreat_template.RetreatComponentNgFactory
+  );
   static final registerRetreat = RouteDefinition(
     routePath: RoutePaths.registerRetreat,
     component: register_retreat_template.RegisterRetreatComponentNgFactory
-  );
-  static final retreatInfo = RouteDefinition(
-    routePath: RoutePaths.retreatInfo,
-    component: retreat_info_template.RetreatInfoComponentNgFactory
   );
   static final registerMongsanpo = RouteDefinition(
     routePath: RoutePaths.registerMongsanpo,
@@ -47,7 +47,7 @@ class Routes {
     component: reset_pass_template.ResetPasswordComponentNgFactory
   );
 
-  static final List<RouteDefinition> all = [search, signup, members, login, registerRetreat, retreatInfo, registerMongsanpo, resetPassword,
+  static final List<RouteDefinition> all = [search, signup, members, login, retreat, registerRetreat, registerMongsanpo, resetPassword,
     RouteDefinition.redirect(path: '', redirectTo: RoutePaths.login.toUrl()),
     RouteDefinition(path: '.+', component: not_found_template.NotFoundComponentNgFactory)
     ];

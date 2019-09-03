@@ -6,8 +6,6 @@ import 'package:http/http.dart';
 import 'package:firebase/firebase.dart' as firebase;
 import 'package:tuple/tuple.dart';
 
-import 'grade.dart';
-
 @Injectable()
 class RockService {
   static const _headers = {
@@ -168,5 +166,17 @@ class RockService {
     } catch(e) {
       throw e;
     }
+  }
+  Stream<String> get Messages async* {
+    var ref = firebase.database().ref("Retreat/CBA");
+    String path = (await ref.once("value")).snapshot.val();
+    var messagesRef = firebase.database().ref("$path/message");
+    String data = "";
+    await for (var item in messagesRef.onValue) {
+      item.snapshot.forEach((snapshot) {
+        data += jsonEncode(snapshot.toJson());
+      });
+    }
+    yield data;
   }
 }

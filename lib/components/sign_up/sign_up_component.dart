@@ -2,9 +2,7 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_forms/angular_forms.dart';
 import 'package:angular_router/angular_router.dart';
-import 'package:intl/intl.dart';
 import 'package:skawa_material_components/snackbar/snackbar.dart';
-import 'package:firebase/firebase.dart' as firebase;
 import '../../rock_service.dart';
 
 @Component(

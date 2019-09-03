@@ -3,6 +3,7 @@ import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:rockclient_dart/rock_service.dart';
 import 'package:tuple/tuple.dart';
+import 'package:skawa_components/infobar/infobar.dart';
 
 @Component(
   selector: 'register-retreat-component',
@@ -16,6 +17,7 @@ import 'package:tuple/tuple.dart';
     ModalComponent,
     NgModel,
     NgIf,
+    SkawaInfobarComponent,
   ]
 )
 class RegisterRetreatComponent implements OnActivate {
