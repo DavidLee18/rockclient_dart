@@ -1,10 +1,10 @@
 <div *ngIf="leaders != null">
-<div class="mdc-card card-size mdc-card--outlined" *ngFor="let leader of leaders['data']">
-    <div class="card-primary">
-        <h2 class="card-title">{{leader['name']}}</h2>
-        <h3 class="card-subtitle">{{leader['mobile']}}</h3>
-    </div>
-    <div class="card-secondary">
+<skawa-card *ngFor="let leader of leaders['data']">
+    <skawa-card-header>
+        <skawa-header-title>{{leader['name']}}</skawa-header-title>
+        <skawa-header-subhead>{{leader['mobile']}}</skawa-header-subhead>
+    </skawa-card-header>
+    <skawa-card-content>
         ID: {{leader['memberId']}}
         <material-chips removable>
             <material-chip *ngFor="let campus of leader['campuses']"
@@ -16,18 +16,13 @@
                 <material-icon icon="add"></material-icon>
             </material-button>
         </material-chips>
-    </div>
-    <div class="mdc-card__actions">
-        <!--<div class="mdc-card__action-buttons">
-            <material-button>캠퍼스 수정</material-button>
-        </div>-->
-        <div class="mdc-card__action-icons">
-            <material-button icon (trigger)="delete(leader['memberId'])">
-                <material-icon icon="delete"></material-icon>
-            </material-button>
-        </div>
-    </div>
-</div>
+    </skawa-card-content>
+    <skawa-card-actions>
+        <material-button icon (trigger)="delete(leader['memberId'])">
+            <material-icon icon="delete"></material-icon>
+        </material-button>
+    </skawa-card-actions>
+</skawa-card>
 </div>
 <modal [(visible)]="isAdding">
     <material-dialog>

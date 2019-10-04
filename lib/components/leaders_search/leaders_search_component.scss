@@ -2,28 +2,28 @@
 
 // Provide a size for the card. Cards normally take up the complete space of
 // their parent.
-.card-size {
+skawa-card {
     width: $mat-grid * 44;
   }
   
   // Provide material styling for the title.
-  .card-title {
+  skawa-card skawa-card-header skawa-header-title {
     @include mat-font-title;
     line-height: 1em; // legacy setting
     margin: 0;
   }
   
   // Provider material styling for the subtitle.
-  .card-subtitle {
+  skawa-card skawa-card-header skawa-header-subhead {
     @include mat-font-subhead;
     margin: 0;
   }
     
-  .card-primary {
+  skawa-card skawa-card-header {
     padding: $mat-grid * 2;
   }
   
-  .card-secondary {
+  skawa-card skawa-card-content {
     @include mat-font-body;
     padding: 0 $mat-grid * 2 $mat-grid;
   }

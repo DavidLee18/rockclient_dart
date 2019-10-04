@@ -2,6 +2,7 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:skawa_material_components/snackbar/snackbar.dart';
+import 'package:skawa_material_components/card/card.dart';
 
 import '../../rock_service.dart';
 
@@ -24,6 +25,7 @@ import '../../rock_service.dart';
     MaterialFabComponent,
     MaterialIconComponent,
     ModalComponent,
+    skawaCardDirectives,
     SkawaSnackbarComponent,
     ],
 )
@@ -87,10 +89,5 @@ class LeadersSearchComponent implements OnActivate {
   @override
   void onActivate(RouterState previous, RouterState current) async {
     this.leaders = await _rockService.Leaders;
-    /*jsonDecode('''
-    {"data":[{"id": 1, "name":"상건","mobile":"01012341234","memberId":3,"campuses":["필레오"]},
-         {"id": 2, "name":"진환","mobile":"01012341234","memberId":4,"campuses":["성용"]},
-         {"id": 3, "name":"목사님","mobile":"01012341234","memberId":5,"campuses":["성용","천안"]}]}
-         ''') as Map;*/
   }
 }
