@@ -32,3 +32,14 @@ skawa-card {
     float: right;
     overflow: auto;
   }
+
+  material-dialog.search {
+    width: auto;
+    material-input {
+      width: auto;
+    }
+  }
+
+  material-expansionpanel-set {
+    margin-bottom: 5%;
+  }

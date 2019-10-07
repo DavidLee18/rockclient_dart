@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 
 import 'package:angular/core.dart';
 import 'package:http/http.dart';
@@ -36,18 +37,35 @@ class RockService {
     }
   }
   Tuple2<int, String> resOrError(Response r) => Tuple2(r.statusCode, r.statusCode != 200 && r.headers['content-type']?.contains('application/json') == true ? jsonDecode(r.body)['data'] : '');
-  Tuple2<int, Map> mapOrerror(Response r) => Tuple2(r.statusCode, r.headers['content-type']?.contains('application/json') == true ? jsonDecode(r.body) : '');
+  Tuple2<int, Map> mapOrError(Response r) => Tuple2(r.statusCode, r.headers['content-type']?.contains('application/json') == true ? jsonDecode(r.body) : '');
+  Tuple2<int, dynamic> listOrError(Response r) => Tuple2(r.statusCode, r.headers['content-type']?.contains('application/json') == true ? jsonDecode(r.body) : null);
+
+  Future<bool> isLeader() async {
+    ArgumentError.checkNotNull(uid, 'uid');
+    Map leaders;
+    Map info;
+    final res = await Leaders;
+    if (res.item1 == 200) {
+      leaders = res.item2;
+    } else throw HttpException('${res.item1} 에러: ${res.item2['data']}');
+    final res2 = await MyInfo;
+    if (res2.item1 == 200) {
+      info = res2.item2;
+    } else throw HttpException('${res.item1} 에러: ${res.item2['data']}');
+    return (leaders['data'] as List).any((l) => l['memberId'] == info['memId']);
+  }
+
   Future<Tuple2<int, Map>> get Leaders async {
     final response = await _http.get(_leaders, headers: _headers);
-    return mapOrerror(response);
+    return mapOrError(response);
   }
   Future<Tuple2<int, String>> setLeader(int id, {String grade='LEADER'}) async {
     final res = await _http.post('$_leaders/register', headers: _headerRegister, body: 'id=$id&grade=$grade');
     return resOrError(res);
   }
-  Future<Tuple2<int, Map>> members(String name) async {
+  Future<Tuple2<int, dynamic>> members(String name) async {
     final res = await _http.get(_members + "/search?name=$name", headers: _headers);
-    return mapOrerror(res);
+    return listOrError(res);
   }
   Future<Tuple2<int, String>> signUp(
     String email, 
@@ -116,8 +134,7 @@ class RockService {
   Future<Tuple2<int, Map>> get MyInfo async {
     ArgumentError.checkNotNull(uid, 'uid');
     final res = await _http.get('http://cba.sungrak.or.kr:9000/getMyInfo/$uid', headers: _headers);
-    final info = json.decode(res.body) as Map;
-    return Tuple2(res.statusCode, info);
+    return mapOrError(res);
   }
   Future<bool> signIn(String email, String password) async {
     try{
@@ -141,14 +158,7 @@ class RockService {
     headers: _headers, body: jsonEncode(campuses));
     return resOrError(res);
   }
-  Future<dynamic> resetPass(String email) async {
-    try {
-      final res = await firebase.auth().sendPasswordResetEmail(email);
-      return res;
-    } catch(e) {
-      throw e;
-    }
-  }
+  Future<dynamic> resetPass(String email) async => await firebase.auth().sendPasswordResetEmail(email);
   Stream<String> get Messages async* {
     var ref = firebase.database().ref("Retreat/CBA");
     String path = (await ref.once("value")).snapshot.val();

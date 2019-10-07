@@ -5,10 +5,10 @@
         <skawa-header-subhead>{{leader['mobile']}}</skawa-header-subhead>
     </skawa-card-header>
     <skawa-card-content>
-        ID: {{leader['memberId']}}
+        ID: {{leader['id']}}
         <material-chips removable>
             <material-chip *ngFor="let campus of leader['campuses']"
-                (remove)="delCampus(leader['memberId'], leader['campuses'], campus)">
+                (remove)="delCampus(leader['id'], leader['campuses'], campus)">
                 {{campus}}
             </material-chip>
             
@@ -18,7 +18,7 @@
         </material-chips>
     </skawa-card-content>
     <skawa-card-actions>
-        <material-button icon (trigger)="unsetLeader(leader['memberId'])">
+        <material-button icon (trigger)="unsetLeader(leader['id'])">
             <material-icon icon="delete"></material-icon>
         </material-button>
     </skawa-card-actions>
@@ -34,7 +34,7 @@
                 [options]="campuses"
                 [(selection)]="campusToAdd"></material-dropdown-select>
         <div footer>
-            <material-button icon (trigger)="addCampus(currentLeader['memberId'], currentLeader['campuses'], campusToAdd)">
+            <material-button icon (trigger)="addCampus(currentLeader['id'], currentLeader['campuses'], campusToAdd)">
                 <material-icon icon="check"></material-icon>
             </material-button>
             <material-button autofocus icon (trigger)="isAdding = false">
@@ -62,18 +62,29 @@
     <material-icon icon="add"></material-icon>
 </material-fab>
 <modal [visible]="isSetting">
-    <material-dialog info>
-        <div header>            
-            <h1>리더 등록</h1>
-        </div>
-        
-        <div footer>
-            <material-button icon (trigger)="setLeader(currentLeader['memberId'])">
-                <material-icon icon="check"></material-icon>
-            </material-button>
+    <material-dialog class="search">
+        <div header>
             <material-button autofocus icon (trigger)="isSetting = false">
                 <material-icon icon="close"></material-icon>
             </material-button>
+            
+            <h2>리더 등록</h2>
         </div>
+        <material-input floatingLabel label="멤버 검색" trailingGlyph="search" hintText="리더로 설정할 사람을 검색하세요"
+            (inputKeyPress)="searchMember($event)"></material-input>
+        <material-progress *ngIf="searching" [indeterminate]="true"></material-progress>
+        <material-expansionpanel-set>
+            <material-expansionpanel *ngFor="let member of members"
+                [name]="member['name']" [cancelDisplayed]="false" saveText="리더로 설정" (save)="setLeader(member['id'])">
+                <h3>
+                ID: {{member['id']}} <br>
+                연락처: {{member['mobile']}} <br>
+                생년월일: {{member['dt_birth']}} <br>
+                캠퍼스: {{member['campus']}} <br>
+                {{member['active'] ? '활성화됨' : '비활성화됨'}} <material-icon [icon]="member['active'] ? 'check' : 'block'"></material-icon>
+                </h3>
+            </material-expansionpanel>
+        </material-expansionpanel-set>
+        <div footer></div>
     </material-dialog>
 </modal>
