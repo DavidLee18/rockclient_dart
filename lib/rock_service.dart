@@ -35,29 +35,19 @@ class RockService {
       );
     }
   }
-  Tuple2<int, String> resOrError(Response r) => Tuple2(r.statusCode, r.headers['content-type']?.contains('application/json') == true ? jsonDecode(r.body)['data'] : "");
-  Future<Map> get Leaders async {
-    try {
-      final response = await _http.get(_leaders, headers: _headers);
-      final leaders = json.decode(response.body) as Map;
-      return leaders;
-    } catch (e) {
-      throw e;
-    }
+  Tuple2<int, String> resOrError(Response r) => Tuple2(r.statusCode, r.statusCode != 200 && r.headers['content-type']?.contains('application/json') == true ? jsonDecode(r.body)['data'] : '');
+  Tuple2<int, Map> mapOrerror(Response r) => Tuple2(r.statusCode, r.headers['content-type']?.contains('application/json') == true ? jsonDecode(r.body) : '');
+  Future<Tuple2<int, Map>> get Leaders async {
+    final response = await _http.get(_leaders, headers: _headers);
+    return mapOrerror(response);
   }
-  Future<dynamic> register(int id, String grade) async {
-    final res = await _http.post(_leaders + "/register", 
-    headers: _headerRegister, body: "id=$id&grade=$grade");
-    return res.body;
+  Future<Tuple2<int, String>> setLeader(int id, {String grade='LEADER'}) async {
+    final res = await _http.post('$_leaders/register', headers: _headerRegister, body: 'id=$id&grade=$grade');
+    return resOrError(res);
   }
-  Future<Map> members(String name) async {
-    try {
-      final res = await _http.get(_members + "/search?name=$name", headers: _headers);
-      final members = json.decode(res.body) as Map;
-      return members;
-    } catch (e) {
-      throw e;
-    }
+  Future<Tuple2<int, Map>> members(String name) async {
+    final res = await _http.get(_members + "/search?name=$name", headers: _headers);
+    return mapOrerror(res);
   }
   Future<Tuple2<int, String>> signUp(
     String email, 
@@ -142,22 +132,14 @@ class RockService {
     if(uid == null) return;
     await firebase.auth().signOut();
   }
-  Future<String> delete(int id) async {
-    try {
-      final res = await _http.delete(_leaders + "/$id", headers: _headers);
-      return res.body;
-    } catch (e) {
-      throw e;
-    }
+  Future<Tuple2<int, String>> unsetLeader(int id) async {
+    final res = await _http.delete(_leaders + "/$id", headers: _headers);
+    return resOrError(res);
   }
-  Future<String> edit(int id, Map campuses) async {
-    try {
-      final res = await _http.put(_leaders + "/$id/edit", 
-      headers: _headers, body: jsonEncode(campuses));
-      return res.body;
-    } catch (e) {
-      throw e;
-    }
+  Future<Tuple2<int, String>> editCampuses(int id, Map campuses) async {
+    final res = await _http.put(_leaders + "/$id/edit", 
+    headers: _headers, body: jsonEncode(campuses));
+    return resOrError(res);
   }
   Future<dynamic> resetPass(String email) async {
     try {

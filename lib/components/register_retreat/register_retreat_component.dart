@@ -58,11 +58,7 @@ class RegisterRetreatComponent implements OnActivate {
   go() async {
     try {
       Tuple2<int, String> res;
-      if (already) {
-        res = await _rockService.editRetreat(retreat_gbs, position);
-      } else {
-        res = await _rockService.registerRetreat(lecture, gbs, retreat_gbs, position);
-      }
+      res = already ? await _rockService.editRetreat(retreat_gbs, position) : await _rockService.registerRetreat(lecture, gbs, retreat_gbs, position);
       registered = res.item1 == 200;
       if(!registered) {
         errorText = res.item2; error = true;

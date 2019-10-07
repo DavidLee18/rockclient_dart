@@ -1,8 +1,7 @@
 import 'package:angular_router/angular_router.dart';
 
-import 'components/leaders_search/leaders_search_component.template.dart' as leaders_search_template;
+import 'components/leaders/leaders_component.template.dart' as leaders_template;
 import 'components/sign_up/sign_up_component.template.dart' as sign_up_template;
-import 'components/members/members_component.template.dart' as members_template;
 import 'components/login/login_component.template.dart' as login_template;
 import 'components/retreat/retreat_component.template.dart' as retreat_template;
 import 'components/register_retreat/register_retreat_component.template.dart' as register_retreat_template;
@@ -14,17 +13,13 @@ import 'route_paths.dart';
 
 
 class Routes {
-  static final search = RouteDefinition(
-    routePath: RoutePaths.leadersSearch,
-    component: leaders_search_template.LeadersSearchComponentNgFactory
+  static final leaders = RouteDefinition(
+    routePath: RoutePaths.leaders,
+    component: leaders_template.LeadersComponentNgFactory
   );
   static final signup = RouteDefinition(
     routePath: RoutePaths.signUp,
     component: sign_up_template.SignUpComponentNgFactory
-  );
-  static final members = RouteDefinition(
-    routePath: RoutePaths.members,
-    component: members_template.MembersComponentNgFactory
   );
   static final login = RouteDefinition(
     routePath: RoutePaths.login,
@@ -47,7 +42,7 @@ class Routes {
     component: reset_pass_template.ResetPasswordComponentNgFactory
   );
 
-  static final List<RouteDefinition> all = [search, signup, members, login, retreat, registerRetreat, registerMongsanpo, resetPassword,
+  static final List<RouteDefinition> all = [leaders, signup, login, retreat, registerRetreat, registerMongsanpo, resetPassword,
     RouteDefinition.redirect(path: '', redirectTo: RoutePaths.login.toUrl()),
     RouteDefinition(path: '.+', component: not_found_template.NotFoundComponentNgFactory)
     ];
