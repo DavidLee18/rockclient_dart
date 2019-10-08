@@ -2,6 +2,7 @@ import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
 import 'package:rockclient_dart/rock_service.dart';
+import 'package:rockclient_dart/route_paths.dart';
 import 'package:tuple/tuple.dart';
 import 'package:skawa_components/infobar/infobar.dart';
 
@@ -20,7 +21,7 @@ import 'package:skawa_components/infobar/infobar.dart';
     SkawaInfobarComponent,
   ]
 )
-class RegisterRetreatComponent implements OnActivate {
+class RegisterRetreatComponent implements OnActivate/*, CanDeactivate*/ {
   final RockService _rockService;
   final Router _router;
   var lecture = null;
@@ -95,5 +96,11 @@ class RegisterRetreatComponent implements OnActivate {
       if(e.name == 'uid') await _router.navigate('/login');
     }
     catch (e) { errorText = e.toString(); error = true; }
+  }
+
+  //@override
+  Future<bool> canDeactivate(RouterState current, RouterState next) async {
+    if(next.routePath == RoutePaths.leaders || next.routePath == RoutePaths.registerRetreat || next.routePath == RoutePaths.retreat) return true;
+    else return false;
   }
 }

@@ -135,16 +135,17 @@ class LeadersComponent implements OnActivate {
 
   @override
   void onActivate(RouterState previous, RouterState current) async {
-    try {
+    /*try {
       final load = await _rockService.isLeader();
+      print(load);
       if (!load) {
-        await _router.navigate('/login');
+        await _router.navigate(RoutePaths.login.path);
       }
     } on ArgumentError catch (e) {
       if (e.name == 'uid') {
-        await _router.navigate('/login');
+        await _router.navigate(RoutePaths.login.path);
       }
-    }
+    }*/
     loadLeaders();
   }
 }

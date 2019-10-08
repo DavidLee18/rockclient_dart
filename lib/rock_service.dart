@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:async';
-import 'dart:io';
 
 import 'package:angular/core.dart';
 import 'package:http/http.dart';
@@ -41,18 +40,17 @@ class RockService {
   Tuple2<int, dynamic> listOrError(Response r) => Tuple2(r.statusCode, r.headers['content-type']?.contains('application/json') == true ? jsonDecode(r.body) : null);
 
   Future<bool> isLeader() async {
-    ArgumentError.checkNotNull(uid, 'uid');
     Map leaders;
     Map info;
     final res = await Leaders;
     if (res.item1 == 200) {
       leaders = res.item2;
-    } else throw HttpException('${res.item1} 에러: ${res.item2['data']}');
+    } else throw Exception('${res.item1} 에러: ${res.item2['data']}');
     final res2 = await MyInfo;
     if (res2.item1 == 200) {
       info = res2.item2;
-    } else throw HttpException('${res.item1} 에러: ${res.item2['data']}');
-    return (leaders['data'] as List).any((l) => l['memberId'] == info['memId']);
+    } else throw Exception('${res.item1} 에러: ${res.item2['data']}');
+    return (leaders['data'] as List).any((l) => l['memberId'].toString() == info['memId'].toString());
   }
 
   Future<Tuple2<int, Map>> get Leaders async {
