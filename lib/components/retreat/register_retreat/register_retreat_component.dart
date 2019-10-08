@@ -6,6 +6,8 @@ import 'package:rockclient_dart/route_paths.dart';
 import 'package:tuple/tuple.dart';
 import 'package:skawa_components/infobar/infobar.dart';
 
+import '../route_paths.dart' as local;
+
 @Component(
   selector: 'register-retreat-component',
   templateUrl: 'register_retreat_component.html',
@@ -100,7 +102,7 @@ class RegisterRetreatComponent implements OnActivate/*, CanDeactivate*/ {
 
   //@override
   Future<bool> canDeactivate(RouterState current, RouterState next) async {
-    if(next.routePath == RoutePaths.leaders || next.routePath == RoutePaths.registerRetreat || next.routePath == RoutePaths.retreat) return true;
+    if(next.routePath == RoutePaths.leaders || next.routePath == local.RoutePaths.registerRetreat || next.routePath == RoutePaths.retreat) return true;
     else return false;
   }
 }

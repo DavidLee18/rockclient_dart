@@ -4,6 +4,7 @@ import 'package:angular_router/angular_router.dart';
 import 'package:rockclient_dart/rock_service.dart';
 import 'package:rockclient_dart/route_paths.dart';
 import 'package:skawa_material_components/snackbar/snackbar.dart';
+import '../retreat/route_paths.dart' as retreat;
 
 @Component(
   selector: 'login-component',
@@ -34,9 +35,10 @@ class LoginComponent implements OnActivate {
   logIn() async {
     try {
       final result = await _rockService.signIn(email.trim(), password);
-      print(result);
       if(result == true) {
-        await _router.navigate(await _rockService.isLeader() ? RoutePaths.leaders.path : RoutePaths.registerRetreat.path);
+        final leader = await _rockService.isLeader();
+        if(leader) { await _router.navigate(RoutePaths.leaders.toUrl()); }
+        else { await _router.navigate(retreat.RoutePaths.registerRetreat.toUrl()); }
       } else {
         errorText = "Somehow Login failed for an unkwown reason...";
         error = true;
