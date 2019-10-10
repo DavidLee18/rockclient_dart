@@ -48,6 +48,8 @@ class RockService {
     return info['grade'] != 'MEMBER';
   }
 
+  StreamSubscription<firebase.User> reactToAuth(void Function(firebase.User) onData, {Function onError}) => firebase.auth().onAuthStateChanged.listen(onData, onError: onError);
+
   Future<Tuple2<int, Map>> get Leaders async {
     final response = await _http.get(_leaders, headers: _headers);
     return mapOrError(response);
