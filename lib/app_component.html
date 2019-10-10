@@ -1,1 +1,29 @@
-<router-outlet [routes]="Routes.all"></router-outlet>
+<material-drawer temporary #drawer="drawer" overlay>
+        <material-list *deferredContent>
+                <!-- Position the start of the drawer content correctly -->
+                <div group class="mat-drawer-spacer"></div>
+                <div group>
+                  <material-list-item (trigger)="drawer.toggle()" [routerLink]="RoutePaths.registerMongsanpo.toUrl()">
+                    <material-icon icon="event"></material-icon>몽산포 수련회 등록하기
+                  </material-list-item>
+                </div>
+                <div group>
+                  <div label>로그인</div>
+                  <material-list-item (trigger)="drawer.toggle()" [routerLink]="RoutePaths.login.toUrl()">
+                    <material-icon [icon]="'account_circle'"></material-icon>로그인
+                  </material-list-item>
+                </div>
+              </material-list>
+</material-drawer>
+<div class="material-content">
+    <header class="material-header shadow">
+        <div class="material-header-row">
+            <material-button class="material-drawer-button" icon (trigger)="drawer.toggle()">
+                <material-icon icon="menu"></material-icon>
+            </material-button>
+            <span class="material-header-title">Rockclient-dart</span>
+            <div class="material-spacer"></div>
+        </div>
+    </header>
+    <router-outlet [routes]="Routes.all"></router-outlet>
+</div>

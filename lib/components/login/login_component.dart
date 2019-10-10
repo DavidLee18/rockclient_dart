@@ -36,9 +36,9 @@ class LoginComponent implements OnActivate {
     try {
       final result = await _rockService.signIn(email.trim(), password);
       if(result == true) {
-        final leader = await _rockService.isLeader();
+        final leader = await _rockService.IsLeader;
         if(leader) { await _router.navigate(RoutePaths.leaders.toUrl()); }
-        else { await _router.navigate(retreat.RoutePaths.registerRetreat.toUrl()); }
+        else { await _router.navigate(RoutePaths.retreat.toUrl()); }
       } else {
         errorText = "Somehow Login failed for an unkwown reason...";
         error = true;

@@ -1,0 +1,19 @@
+<h1>내 정보</h1>
+<div *ngIf="info != null">
+    <section>
+        멤버 ID: {{info['memId']}} <br>
+        수련회 ID: {{info['retreat_id']}} <br>
+        이름: {{info['name']}} <br>
+        캠퍼스: {{info['campus']}} <br>
+        수련회 GBS: {{info['retreatGbs']}} <br>
+        기존 GBS: {{info['originalGbs']}} <br>
+        위치: {{info['position']}} <br>
+        생년월일: {{info['dt_birth']}} <br>
+        성별: {{info['sex']}} <br>
+        연락처: {{info['mobile']}} <br>
+        UID: {{info['uid']}} <br>
+        직분: {{info['grade']}} <br>
+    </section>
+    <material-button (trigger)="registerOrEdit" raised>수련회 {{already ? '수정' : '등록'}}</material-button>
+</div>
+<material-progress *ngIf="info == null" [indeterminate]="true"></material-progress>

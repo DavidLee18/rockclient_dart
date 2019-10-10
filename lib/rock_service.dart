@@ -39,18 +39,13 @@ class RockService {
   Tuple2<int, Map> mapOrError(Response r) => Tuple2(r.statusCode, r.headers['content-type']?.contains('application/json') == true ? jsonDecode(r.body) : '');
   Tuple2<int, dynamic> listOrError(Response r) => Tuple2(r.statusCode, r.headers['content-type']?.contains('application/json') == true ? jsonDecode(r.body) : null);
 
-  Future<bool> isLeader() async {
-    Map leaders;
+  Future<bool> get IsLeader async {
     Map info;
-    final res = await Leaders;
+    final res = await MyInfo;
     if (res.item1 == 200) {
-      leaders = res.item2;
+      info = res.item2;
     } else throw Exception('${res.item1} 에러: ${res.item2['data']}');
-    final res2 = await MyInfo;
-    if (res2.item1 == 200) {
-      info = res2.item2;
-    } else throw Exception('${res.item1} 에러: ${res.item2['data']}');
-    return (leaders['data'] as List).any((l) => l['memberId'].toString() == info['memId'].toString());
+    return info['grade'] != 'MEMBER';
   }
 
   Future<Tuple2<int, Map>> get Leaders async {

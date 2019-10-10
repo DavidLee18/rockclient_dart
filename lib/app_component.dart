@@ -8,7 +8,17 @@ import 'route_paths.dart';
 @Component(
   selector: 'app-component',
   templateUrl: 'app_component.html',
-  directives: [routerDirectives],
+  styleUrls: ['package:angular_components/app_layout/layout.scss.css'],
+  directives: [
+    routerDirectives,
+    DeferredContentDirective,
+    MaterialButtonComponent,
+    MaterialIconComponent,
+    MaterialListComponent,
+    MaterialListItemComponent,
+    MaterialTemporaryDrawerComponent,
+    MaterialPersistentDrawerDirective,
+    ],
   providers: [ClassProvider(RockService), materialProviders],
   exports: [Routes, RoutePaths]
 )
