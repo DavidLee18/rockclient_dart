@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
-import 'package:rockclient_dart/route_paths.dart';
-import 'package:skawa_material_components/snackbar/snackbar.dart';
 import 'package:skawa_material_components/card/card.dart';
+import 'package:skawa_material_components/snackbar/snackbar.dart';
 
 import '../../rock_service.dart';
 
@@ -59,6 +56,36 @@ class LeadersComponent implements OnActivate {
   List members = List();
   var searching = false;
 
+  LeadersComponent(this._rockService, this._router, this._snackbar);
+
+  void addCampus(int id, List<dynamic> origins, String campus) async {
+    if (!isAdding || campus == "캠퍼스") return;
+    final news = origins.sublist(0)..add(campus);
+    try {
+      final res = await _rockService.editCampuses(id, {'names': news});
+      if (res.item1 != 200) {
+        errorMessage = '${res.item1} 에러: ${res.item2}'; error = true;
+      } else { _snackbar.showMessage('캠퍼스 $campus(을/를) 추가했습니다.'); loadLeaders(); }
+    } catch (e) {
+      errorMessage = e.toString(); error = true;
+    } finally {
+      campusToAdd = "캠퍼스";
+      isAdding = false;
+    }
+  }
+
+  void delCampus(int id, List<dynamic> origins, String campus) async {
+    final newCampus = origins.sublist(0)..remove(campus);
+    try {
+      final res = await _rockService.editCampuses(id, {'names': newCampus});
+      if (res.item1 != 200) {
+        errorMessage = '${res.item1} 에러: ${res.item2}'; error = true;
+      } else { _snackbar.showMessage('캠퍼스 $campus(을/를) 지웠습니다.'); loadLeaders(); }
+    } catch (e) {
+      errorMessage = e.toString(); error = true;
+    }
+  }
+
   void loadLeaders() async {
     leaders = null; name = ''; isAdding = false; currentLeader = null;
     final res = await _rockService.Leaders;
@@ -68,6 +95,9 @@ class LeadersComponent implements OnActivate {
       errorMessage = '${res.item1} 에러: ${res.item2['data']}'; error = true;
     }
   }
+
+  @override
+  void onActivate(RouterState previous, RouterState current) async => loadLeaders();
 
   void searchMember(String name) async {
     searching = true;
@@ -87,6 +117,25 @@ class LeadersComponent implements OnActivate {
       else { isSetting = false; _snackbar.showMessage('리더 등록 성공'); loadLeaders(); }
   }
 
+  void setLeader2(int id, String campus) async {
+    try {
+    final res = await _rockService.setLeader(id);
+    if(res.item1 != 200) { errorMessage = '${res.item1} 에러: ${res.item2}'; error = true; }
+    else {
+      final res3 = await _rockService.Leaders;
+      if (res3.item1 == 200) {
+        final Map me = (res3.item2['data'] as List).firstWhere((l) => (l as Map)['memberId'].toString() == id.toString());
+        final res2 = await _rockService.editCampuses(me['id'], {'names': [campus]});
+        if (res2.item1 != 200) { errorMessage = '${res2.item1} 에러: ${res2.item2}'; error = true; }
+        else { _snackbar.showMessage('리더를 등록하고 기본 캠퍼스 $campus(을/를) 추가했습니다.'); }
+      } else { errorMessage = '${res3.item1} 에러: ${res3.item2['data']}'; error = true; }
+    }
+    } catch (e) { errorMessage = e.toString(); error = true; }
+    finally { isSetting = false; loadLeaders(); }
+  }
+
+  void startToAdd(Map curr) { currentLeader = curr; isAdding = true; }
+
   void unsetLeader(int id) async {
     try {
       final res = await _rockService.unsetLeader(id);
@@ -96,56 +145,5 @@ class LeadersComponent implements OnActivate {
     } catch (e) {
       errorMessage = e.toString(); error = true;
     }
-  }
-
-  void delCampus(int id, List<dynamic> origins, String campus) async {
-    final newCampus = origins.sublist(0)..remove(campus);
-    try {
-      final res = await _rockService.editCampuses(id, {'names': newCampus});
-      if (res.item1 != 200) {
-        errorMessage = '${res.item1} 에러: ${res.item2}'; error = true;
-      } else { _snackbar.showMessage('캠퍼스 $campus를 지웠습니다.'); loadLeaders(); }
-    } catch (e) {
-      errorMessage = e.toString(); error = true;
-    }
-  }
-
-  void startToAdd(Map curr) {
-    currentLeader = curr;
-    isAdding = true;
-  }
-
-  void addCampus(int id, List<dynamic> origins, String campus) async {
-    if (!isAdding || campus == "캠퍼스") return;
-    final news = origins.sublist(0)..add(campus);
-    try {
-      final res = await _rockService.editCampuses(id, {'names': news});
-      if (res.item1 != 200) {
-        errorMessage = '${res.item1} 에러: ${res.item2}'; error = true;
-      } else { _snackbar.showMessage('캠퍼스 $campus를 추가했습니다.'); loadLeaders(); }
-    } catch (e) {
-      errorMessage = e.toString(); error = true;
-    } finally {
-      campus = "캠퍼스";
-      isAdding = false;
-    }
-  }
-
-  LeadersComponent(this._rockService, this._router, this._snackbar);
-
-  @override
-  void onActivate(RouterState previous, RouterState current) async {
-    /*try {
-      final load = await _rockService.isLeader();
-      print(load);
-      if (!load) {
-        await _router.navigate(RoutePaths.login.path);
-      }
-    } on ArgumentError catch (e) {
-      if (e.name == 'uid') {
-        await _router.navigate(RoutePaths.login.path);
-      }
-    }*/
-    loadLeaders();
   }
 }

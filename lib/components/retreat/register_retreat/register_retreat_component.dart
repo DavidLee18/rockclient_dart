@@ -60,20 +60,10 @@ class RegisterRetreatComponent implements OnActivate/*, CanDeactivate*/ {
 
   go() async {
     try {
-      Tuple2<int, String> res;
-      res = already ? await _rockService.editRetreat(retreat_gbs, position) : await _rockService.registerRetreat(lecture, gbs, retreat_gbs, position);
+      final res = already ? await _rockService.editRetreat(retreat_gbs, position) : await _rockService.registerRetreat(lecture, gbs, retreat_gbs, position);
       registered = res.item1 == 200;
-      if(!registered) {
-        errorText = res.item2; error = true;
-      }
-    } on ArgumentError catch (e) {
-      if(e.name == 'uid') await _router.navigate('/login');
-    } catch (e) {
-      errorText = e.toString(); error = true;
-    }
-    finally {
-      await _rockService.signOut();
-    }
+      if(!registered) { errorText = res.item2; error = true; }
+    } catch (e) { errorText = e.toString(); error = true; }
   }
 
   get Valid => retreat_gbs != "수련회 단계"

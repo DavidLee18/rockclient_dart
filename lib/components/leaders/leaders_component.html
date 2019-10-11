@@ -75,7 +75,7 @@
         <material-progress *ngIf="searching" [indeterminate]="true"></material-progress>
         <material-expansionpanel-set>
             <material-expansionpanel *ngFor="let member of members"
-                [name]="member['name']" [cancelDisplayed]="false" saveText="리더로 설정" (save)="setLeader(member['id'])">
+                [name]="member['name']" [cancelDisplayed]="false" saveText="리더로 설정" (save)="setLeader2(member['id'], member['campus'])">
                 <h3>
                 ID: {{member['id']}} <br>
                 연락처: {{member['mobile']}} <br>

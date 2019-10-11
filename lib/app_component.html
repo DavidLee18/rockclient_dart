@@ -16,16 +16,16 @@
                 <div group *ngIf="loggedOn">
                   <div label>CBA</div>
                   <material-list-item>
-                    <material-icon icon="account_circle"></material-icon>{{myInfo['name']}}로 로그인됨
+                    <material-icon icon="how_to_reg"></material-icon>{{myInfo['name']}}(으)로 로그인됨
                   </material-list-item>
                   <material-list-item (trigger)="drawer.toggle()" [routerLink]="RoutePaths.retreat.toUrl()">
-                    <material-icon icon="account_circle"></material-icon>내 정보
+                    <material-icon icon="info"></material-icon>내 정보
                   </material-list-item>
                   <material-list-item *ngIf="isLeader" (trigger)="drawer.toggle()" [routerLink]="RoutePaths.leaders.toUrl()">
-                    <material-icon icon="account_circle"></material-icon>리더 관리
+                    <material-icon icon="people"></material-icon>리더 관리
                   </material-list-item>
                   <material-list-item (trigger)="logout(); drawer.toggle()" [routerLink]="RoutePaths.login.toUrl()">
-                    <material-icon icon="account_circle"></material-icon>로그아웃
+                    <material-icon icon="exit_to_app"></material-icon>로그아웃
                   </material-list-item>
                 </div>
               </material-list>
