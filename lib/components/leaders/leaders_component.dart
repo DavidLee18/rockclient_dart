@@ -1,6 +1,7 @@
 import 'package:angular/angular.dart';
 import 'package:angular_components/angular_components.dart';
 import 'package:angular_router/angular_router.dart';
+import 'package:rockclient_dart/route_paths.dart';
 import 'package:skawa_material_components/card/card.dart';
 import 'package:skawa_material_components/snackbar/snackbar.dart';
 
@@ -97,7 +98,15 @@ class LeadersComponent implements OnActivate {
   }
 
   @override
-  void onActivate(RouterState previous, RouterState current) async => loadLeaders();
+  void onActivate(RouterState previous, RouterState current) async {
+    try {
+      final ishe = await _rockService.IsLeader;
+      if(ishe) loadLeaders();
+      else await _router.navigate(RoutePaths.retreat.toUrl());
+    } on ArgumentError catch (e) {
+      if(e.name == 'uid') await _router.navigate(RoutePaths.retreat.toUrl());
+    }
+  }
 
   void searchMember(String name) async {
     searching = true;
