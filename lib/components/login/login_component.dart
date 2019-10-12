@@ -52,5 +52,9 @@ class LoginComponent implements OnActivate {
   LoginComponent(this._rockService, this._router, this._snackbarService);
 
   @override
-  void onActivate(RouterState previous, RouterState current) {}
+  void onActivate(RouterState previous, RouterState current) {
+    _rockService.reactToAuth((user) {
+      if(user != null) { _router.navigate(RoutePaths.retreat.toUrl()); }
+    }, onError: (e) { errorText = e.toString(); error = true; });
+  }
 }

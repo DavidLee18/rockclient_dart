@@ -38,7 +38,7 @@ class Routes {
   );
 
   static final List<RouteDefinition> all = [leaders, signup, login, retreat, registerMongsanpo, resetPassword,
-    RouteDefinition.redirect(path: '', redirectTo: RoutePaths.login.toUrl()),
+    //RouteDefinition.redirect(path: '', redirectTo: RoutePaths.login.toUrl()),
     RouteDefinition(path: '.+', component: not_found_template.NotFoundComponentNgFactory)
     ];
 }
