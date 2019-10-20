@@ -1,0 +1,27 @@
+<div *ngIf="messages != null">
+    <section [class.right]="message['isStaff'] == '공지'" *ngFor="let message of messages">
+        <div class="title">{{message['author']}}</div>
+        <div class="chat-bubble">
+        is staff: {{message['isStaff']}} <br>
+        {{message['message']}} <br>
+        </div>
+        <material-chips>
+            <material-chip [removable]="false">{{message['time']}}</material-chip>
+        </material-chips>
+    </section>
+    <!--{{raw | json}}-->
+</div>
+<material-progress *ngIf="messages == null" [indeterminate]="true"></material-progress>
+<modal [visible]="error">
+    <material-dialog info>
+        <div header>
+            <material-button autofocus icon (trigger)="error = false">
+                <material-icon icon="close"></material-icon>
+            </material-button>
+            
+            <h1>오류</h1>
+        </div>
+        {{errorMessage}}
+        <div footer></div>
+    </material-dialog>
+</modal>

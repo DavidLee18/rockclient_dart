@@ -166,4 +166,18 @@ class RockService {
     }
     yield data;
   }
+  Future<Tuple4<StreamSubscription<firebase.QueryEvent>,
+                StreamSubscription<firebase.QueryEvent>,
+                StreamSubscription<firebase.QueryEvent>,
+                StreamSubscription<firebase.QueryEvent>>> reactToMessages(void Function(firebase.QueryEvent) onData, {Function onError}) async {
+    var ref = firebase.database().ref("Retreat/CBA");
+    String path = (await ref.once("value")).snapshot.val();
+    var messagesRef = firebase.database().ref("$path/message");
+
+    //messagesRef.onChildAdded.listen(onData, onError: onError); // error: expected int but got string?
+    return Tuple4(messagesRef.onValue.listen(onData, onError: onError),
+                  messagesRef.onChildChanged.listen(onData, onError: onError),
+                  messagesRef.onChildMoved.listen(onData, onError: onError),
+                  messagesRef.onChildRemoved.listen(onData, onError: onError));
+  }
 }

@@ -32,6 +32,7 @@ class AppComponent {
   Map myInfo = null;
   var title = '';
   void logout() async => await _rockService.signOut();
+  get messages => retreat.RoutePaths.messages;
 
   AppComponent(this._rockService, this._router) {
     _router.onNavigationStart.listen((path) async {
@@ -42,6 +43,7 @@ class AppComponent {
       path == RoutePaths.leaders.toUrl() ? '리더 관리' :
       path == retreat.RoutePaths.home.toUrl() ? '내 정보' :
       path == retreat.RoutePaths.registerRetreat.toUrl() ? '수련회 등록/수정' :
+      path == retreat.RoutePaths.messages.toUrl() ? '메세지 보기 (실험적)' :
       'CBA';
     }, onError: (e) { title = 'CBA'; });
     _rockService.reactToAuth((user) async {
