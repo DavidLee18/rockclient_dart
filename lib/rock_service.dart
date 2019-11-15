@@ -131,6 +131,15 @@ class RockService {
     final res = await _http.get('http://cba.sungrak.or.kr:9000/getMyInfo/$uid', headers: _headers);
     return mapOrError(res);
   }
+  Future<bool> get RetreatRegistered async {
+    final _info = await MyInfo;
+      return _info.item1 == 200
+      && isRegistered(_info.item2);
+  }
+  bool isRegistered(Map info) => info['retreat_id'] != null
+      && info['position'] != null
+      && info['retreatGbs'] != null
+      && info['originalGbs'] != null;
   Future<bool> signIn(String email, String password) async {
     try{
       if(uid != null) await signOut();

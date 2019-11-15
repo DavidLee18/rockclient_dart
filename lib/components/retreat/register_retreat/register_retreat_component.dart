@@ -74,11 +74,7 @@ class RegisterRetreatComponent implements OnActivate/*, CanDeactivate*/ {
   void onActivate(RouterState previous, RouterState current) async {
     try {
       _info = await _rockService.MyInfo;
-      this.already = _info.item1 == 200
-      && _info.item2['retreat_id'] != null
-      && _info.item2['position'] != null
-      && _info.item2['retreatGbs'] != null
-      && _info.item2['originalGbs'] != null;
+      this.already = await _rockService.RetreatRegistered;
       if(already) {
         position = _info.item2['position'];
         retreat_gbs = _info.item2['retreatGbs'];

@@ -18,7 +18,7 @@ class RetreatInfoComponent implements OnActivate {
   final RockService _rockService;
   final Router _router;
   Map info;
-  get already => info != null && info['retreat_id'] != null && info['retreatGbs'] != null;
+  get already => _rockService.isRegistered(info);
 
   RetreatInfoComponent(this._rockService, this._router);
 
