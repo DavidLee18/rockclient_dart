@@ -48,6 +48,15 @@ class RockService {
     return info['grade'] != 'MEMBER';
   }
 
+  Future<bool> get IsWorthy async {
+    Map info;
+    final res = await MyInfo;
+    if (res.item1 == 200) {
+      info = res.item2;
+    } else throw Exception('${res.item1} 에러: ${res.item2['data']}');
+    return info['name'] == '나진환';
+  }
+
   StreamSubscription<firebase.User> reactToAuth(void Function(firebase.User) onData, {Function onError}) => firebase.auth().onAuthStateChanged.listen(onData, onError: onError);
 
   Future<Tuple2<int, Map>> get Leaders async {
@@ -163,18 +172,6 @@ class RockService {
     return resOrError(res);
   }
   Future<dynamic> resetPass(String email) async => await firebase.auth().sendPasswordResetEmail(email);
-  Stream<String> get Messages async* {
-    var ref = firebase.database().ref("Retreat/CBA");
-    String path = (await ref.once("value")).snapshot.val();
-    var messagesRef = firebase.database().ref("$path/message");
-    String data = "";
-    await for (var item in messagesRef.onValue) {
-      item.snapshot.forEach((snapshot) {
-        data += jsonEncode(snapshot.toJson());
-      });
-    }
-    yield data;
-  }
   Future<Tuple4<StreamSubscription<firebase.QueryEvent>,
                 StreamSubscription<firebase.QueryEvent>,
                 StreamSubscription<firebase.QueryEvent>,
@@ -182,6 +179,20 @@ class RockService {
     var ref = firebase.database().ref("Retreat/CBA");
     String path = (await ref.once("value")).snapshot.val();
     var messagesRef = firebase.database().ref("$path/message");
+
+    //messagesRef.onChildAdded.listen(onData, onError: onError); // error: expected int but got string?
+    return Tuple4(messagesRef.onValue.listen(onData, onError: onError),
+                  messagesRef.onChildChanged.listen(onData, onError: onError),
+                  messagesRef.onChildMoved.listen(onData, onError: onError),
+                  messagesRef.onChildRemoved.listen(onData, onError: onError));
+  }
+  Future<Tuple4<StreamSubscription<firebase.QueryEvent>,
+                StreamSubscription<firebase.QueryEvent>,
+                StreamSubscription<firebase.QueryEvent>,
+                StreamSubscription<firebase.QueryEvent>>> reactToNoties(void Function(firebase.QueryEvent) onData, {Function onError}) async {
+    var ref = firebase.database().ref("Retreat/CBA");
+    String path = (await ref.once("value")).snapshot.val();
+    var messagesRef = firebase.database().ref("$path/noti");
 
     //messagesRef.onChildAdded.listen(onData, onError: onError); // error: expected int but got string?
     return Tuple4(messagesRef.onValue.listen(onData, onError: onError),

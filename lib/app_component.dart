@@ -28,6 +28,7 @@ class AppComponent {
   final RockService _rockService;
   final Router _router;
   var loggedOn = false;
+  var isWorthy = false;
   var isLeader = false;
   Map myInfo = null;
   var title = '';
@@ -49,10 +50,11 @@ class AppComponent {
     _rockService.reactToAuth((user) async {
       if (user != null) {
         loggedOn = true;
+        isWorthy = await _rockService.IsWorthy;
         isLeader = await _rockService.IsLeader;
         final res = await _rockService.MyInfo;
         myInfo = res.item1 == 200 ? res.item2 : null;
-      } else { loggedOn = false; isLeader = false; myInfo = null; }
-    }, onError: (e) { loggedOn = false; isLeader = false; myInfo = null; });
+      } else { loggedOn = false; isWorthy = false; myInfo = null; }
+    }, onError: (e) { loggedOn = false; isWorthy = false; myInfo = null; });
   }
 }

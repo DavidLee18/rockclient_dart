@@ -21,7 +21,7 @@
                   <material-list-item (trigger)="drawer.toggle()" [routerLink]="RoutePaths.retreat.toUrl()">
                     <material-icon icon="info"></material-icon>내 정보
                   </material-list-item>
-                  <material-list-item *ngIf="isLeader" (trigger)="drawer.toggle()" [routerLink]="RoutePaths.leaders.toUrl()">
+                  <material-list-item *ngIf="isWorthy" (trigger)="drawer.toggle()" [routerLink]="RoutePaths.leaders.toUrl()">
                     <material-icon icon="people"></material-icon>리더 관리
                   </material-list-item>
                   <material-list-item *ngIf="isLeader" (trigger)="drawer.toggle()" [routerLink]="messages.toUrl()">

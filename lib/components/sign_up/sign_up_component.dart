@@ -95,7 +95,7 @@ class SignUpComponent implements OnActivate {
         final res = await _rockService.signUp(email, password, name, mobile, '$year-$month-$day', sex, campus, address, school, major, grade, guide);
         signUpSuccess = res.item1 == 200;
         if(!signUpSuccess) {
-          errorText = res.item2; error = true;
+          errorText = '${res.item1}: ${res.item2}'; error = true;
         }
       } catch (e) {
         throw e;

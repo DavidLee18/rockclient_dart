@@ -62,7 +62,7 @@ class RegisterRetreatComponent implements OnActivate/*, CanDeactivate*/ {
     try {
       final res = already ? await _rockService.editRetreat(retreat_gbs, position) : await _rockService.registerRetreat(lecture, gbs, retreat_gbs, position);
       registered = res.item1 == 200;
-      if(!registered) { errorText = res.item2; error = true; }
+      if(!registered) { errorText = '${res.item1}: ${res.item2}'; error = true; }
     } catch (e) { errorText = e.toString(); error = true; }
   }
 

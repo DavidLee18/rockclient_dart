@@ -100,7 +100,7 @@ class LeadersComponent implements OnActivate {
   @override
   void onActivate(RouterState previous, RouterState current) async {
     try {
-      final ishe = await _rockService.IsLeader;
+      final ishe = await _rockService.IsWorthy;
       if(ishe) loadLeaders();
       else await _router.navigate(RoutePaths.retreat.toUrl());
     } on ArgumentError catch (e) {

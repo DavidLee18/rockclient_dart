@@ -11,17 +11,11 @@ import 'routes.dart';
   directives: [MaterialButtonComponent, coreDirectives, RouterOutlet],
   exports: [Routes, RoutePaths],
 )
-class RetreatComponent extends OnActivate {
+class RetreatComponent {
   final Router _router;
   final RockService _rockService;
-  String messages;
 
   RetreatComponent(this._router, this._rockService);
 
   void gotoRegister() async => await _router.navigate(RoutePaths.registerRetreat.toUrl());
-
-  @override
-  void onActivate(RouterState previous, RouterState current) async {
-    _rockService.Messages.listen((e) { messages = e; });
-  }
 }

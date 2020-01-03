@@ -1,5 +1,9 @@
-<div *ngIf="messages != null">
-    <section [class.right]="message['isStaff'] == '공지'" *ngFor="let message of messages">
+<div>
+    <material-checkbox [(checked)]="showMessages">Messages</material-checkbox>
+    <material-checkbox [(checked)]="showNoties">Notifications</material-checkbox>
+</div>
+<div *ngIf="sums != null">
+    <section [class.right]="message['isStaff'] == '공지'" *ngFor="let message of sums">
         <div class="title">{{message['author']}}</div>
         <div class="chat-bubble">
         is staff: {{message['isStaff']}} <br>
@@ -11,7 +15,7 @@
     </section>
     <!--{{raw | json}}-->
 </div>
-<material-progress *ngIf="messages == null" [indeterminate]="true"></material-progress>
+<material-progress *ngIf="sums == null" [indeterminate]="true"></material-progress>
 <modal [visible]="error">
     <material-dialog info>
         <div header>
