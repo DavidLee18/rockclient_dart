@@ -35,7 +35,7 @@ class RegisterRetreatComponent implements OnActivate/*, CanDeactivate*/ {
   ];
   var retreat_gbs = "수련회 단계";
   final retreat_gbses = [
-    "A", "새내기", "C",
+    "A", "새내기", "C", "D"
     "E", "F", "J",
     "OJ", "EN", "자모GBS",
     "STAFF",
