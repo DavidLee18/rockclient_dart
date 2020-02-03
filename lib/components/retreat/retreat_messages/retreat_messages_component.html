@@ -1,31 +1,8 @@
-<div>
-    <material-checkbox [(checked)]="showMessages">Messages</material-checkbox>
-    <material-checkbox [(checked)]="showNoties">Notifications</material-checkbox>
-</div>
-<div *ngIf="sums != null">
-    <section [class.right]="message['isStaff'] == '공지'" *ngFor="let message of sums">
-        <div class="title">{{message['author']}}</div>
-        <div class="chat-bubble">
-        is staff: {{message['isStaff']}} <br>
-        {{message['message']}} <br>
-        </div>
-        <material-chips>
-            <material-chip [removable]="false">{{message['time']}}</material-chip>
-        </material-chips>
+<section>
+    <material-tab-strip [tabLabels]="labels"
+        (tabChange)="tabIndex = $event.newIndex"></material-tab-strip>
+    <section [ngSwitch]="tabIndex">
+        <messages *ngSwitchCase="0"></messages>
+        <noties *ngSwitchCase="1"></noties>
     </section>
-    <!--{{raw | json}}-->
-</div>
-<material-progress *ngIf="sums == null" [indeterminate]="true"></material-progress>
-<modal [visible]="error">
-    <material-dialog info>
-        <div header>
-            <material-button autofocus icon (trigger)="error = false">
-                <material-icon icon="close"></material-icon>
-            </material-button>
-            
-            <h1>오류</h1>
-        </div>
-        {{errorMessage}}
-        <div footer></div>
-    </material-dialog>
-</modal>
+</section>

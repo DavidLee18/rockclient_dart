@@ -1,0 +1,31 @@
+<skawa-infobar *ngIf="error" icon="error">{{errorMessage}}</skawa-infobar>
+<div *ngIf="noties != null">
+    <section [class.right]="message['isStaff'] == '공지'" *ngFor="let message of noties">
+        <div class="chat-bubble">
+            {{message['author']}} <small *ngIf="message['isStaff'] != '공지'">({{message['isStaff']}})</small> <br>
+            {{message['message']}} <br>
+        </div>
+        <small> {{message['time']}} </small>
+    </section>
+    <!--{{raw | json}}-->
+    <material-fab [disabled]="!isAdmin" (trigger)="sending = true"> <material-icon icon="create"></material-icon> </material-fab>
+</div>
+<material-progress *ngIf="noties == null" [indeterminate]="true"></material-progress>
+
+<modal [visible]="sending">
+    <material-dialog info>
+        <div header>
+            <material-button autofocus icon (trigger)="sending = false">
+                <material-icon icon="close"></material-icon>
+            </material-button>
+            
+            <h1>CBA 공지</h1>
+        </div>
+        <material-input multiline required label="메세지 내용" [(ngModel)]="toSend"
+            requiredErrorMsg="보낼 내용을 입력하세요" hintText="보낼 내용을 입력하세요"></material-input>
+        <div footer>
+            <material-button icon disabled (trigger)="notify = !notify"> <material-icon [icon]="notiIcon"></material-icon> </material-button>
+            <material-button icon (trigger)="send()" [disabled]="toSend == ''"> <material-icon icon="send"></material-icon> </material-button>
+        </div>
+    </material-dialog>
+</modal>

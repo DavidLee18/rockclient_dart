@@ -25,7 +25,7 @@
                     <material-icon icon="people"></material-icon>리더 관리
                   </material-list-item>
                   <material-list-item *ngIf="isLeader" (trigger)="drawer.toggle()" [routerLink]="messages.toUrl()">
-                      <material-icon icon="question_answer"></material-icon>메세지 보기(실험적)
+                      <material-icon icon="question_answer"></material-icon>Q&A | 공지
                     </material-list-item>
                   <material-list-item (trigger)="logout(); drawer.toggle()" [routerLink]="RoutePaths.login.toUrl()">
                     <material-icon icon="exit_to_app"></material-icon>로그아웃

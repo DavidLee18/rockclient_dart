@@ -1,0 +1,27 @@
+material-fab {
+    float: right;
+    overflow: auto;
+    background: green;
+    color: white;
+    vertical-align: bottom;
+  }
+
+  .chat-bubble {
+    background-color: #e0e0e0;
+    color: black;
+    display: list-item;
+    align-items: center;
+    border-radius: 16px;
+    width: fit-content;
+    height: auto;
+    margin: 4px;
+    padding: 5px;
+    overflow: hidden;
+}
+.title {
+    padding-left: 1%;
+}
+
+.right {
+    padding-left: 60%;
+}
