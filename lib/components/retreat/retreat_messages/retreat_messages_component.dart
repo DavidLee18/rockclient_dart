@@ -32,5 +32,7 @@ class RetreatMessagesComponent implements OnActivate {
     _rockService.reactToAuth((user) async {if (user == null) {
       await _router.navigate(RoutePaths.login.toUrl());
     }});
+    final isleader = await _rockService.IsLeader;
+    if (!isleader) { await _router.navigate(RoutePaths.login.toUrl()); }
   }
 }
