@@ -73,7 +73,7 @@ class RockService {
     return info['grade'] == grade;
   }
 
-  Future<bool> get IsWorthy async => await isName('나진환');
+  Future<bool> get IsWorthy async => await isName('나진환') || await isName('김다인');
 
   Future<bool> get IsDev async => await isName('나진환') || await isName('김다인') || await isName('유상건') || await isName('김진석') || await isName('이재현');
 
